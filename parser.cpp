@@ -34,7 +34,7 @@ void Parser::eat(TokenType tokenType) {
 
 ASTPtr Parser::factor()
 {
-    // factor: INTEGER | LPAREN expr RPAREN
+    // factor: INTEGER | LPAREN expr RPAREN | STRING
     TokenPtr token = m_currentToken;
     if (token->m_type == TokenType::PLUS) {
         eat(TokenType::PLUS);
@@ -44,6 +44,9 @@ ASTPtr Parser::factor()
         return std::make_shared<UnaryOp>(token, factor());
     } else if (token->m_type == TokenType::INTEGER) {
         eat(TokenType::INTEGER);
+        return std::make_shared<Num>(token);
+    } else if (token->m_type == TokenType::STRING) {
+        eat(TokenType::STRING);
         return std::make_shared<Num>(token);
     } else if(token->m_type == TokenType::LPAREN) {
         eat(TokenType::LPAREN);

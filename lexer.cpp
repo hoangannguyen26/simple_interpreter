@@ -66,7 +66,7 @@ TokenPtr Lexer::getNextToken() {
         }
         if(m_currentChar == '"' )
         {
-           return std::make_shared<Token>(TokenType::INTEGER, string());
+           return std::make_shared<Token>(TokenType::STRING, string());
         }
         error();
     }
@@ -111,21 +111,21 @@ int Lexer::integer()
 
 std::string Lexer::string() {
     std::string result = "";
+    advance();
     while (m_currentChar != EOF && m_currentChar != '"') {
         result += m_currentChar;
         advance();
     }
+    advance();
     return result;
 }
 
 TokenPtr Lexer::id(){
     std::string result = "";
-    advance();
     while (m_currentChar != EOF && std::isalpha(m_currentChar)) {
         result += m_currentChar;
         advance();
     }
-    advance();
     const auto found = RESERVED_KEYWORDS.find(result);
     if(found != RESERVED_KEYWORDS.end()) {
         return found->second;
