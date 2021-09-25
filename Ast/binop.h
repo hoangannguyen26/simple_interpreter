@@ -2,7 +2,7 @@
 #define BINOP_H
 #include "ast.h"
 #include "../token.h"
-#include "num.h"
+#include "literal.h"
 
 
 class BinOp : public AST
@@ -16,6 +16,6 @@ public:
     const ASTPtr            m_right;
 };
 
-using BinOpPtr = std::shared_ptr<BinOp>;
+CREATE_SHARED_PTR(BinOp);
 
 #endif // BINOP_H

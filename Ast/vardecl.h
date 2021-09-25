@@ -12,6 +12,6 @@ public:
     ASTPtr          m_type_node;
 };
 
-using VarDeclPtr = std::shared_ptr<VarDecl>;
+CREATE_SHARED_PTR(VarDecl);
 
 #endif // VARDECL_H

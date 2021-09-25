@@ -12,6 +12,6 @@ public:
     const ASTPtr          m_expr;
 };
 
-using UnaryOpPtr = std::shared_ptr<UnaryOp>;
+CREATE_SHARED_PTR(UnaryOp);
 
 #endif // UNARYOP_H

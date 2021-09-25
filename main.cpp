@@ -8,10 +8,13 @@ using namespace std;
 int main()
 {
     std::string source;
-    source += "var string strVal\n";
-    source += "var int c\n" ;
-    source +=  "c = 2 * 5\n";
-    source +=  "strVal=\"This is a string\"  + \"add\"";
+    source += "var string strVal                            \n";
+    source += "var int c                                    \n" ;
+    source += "c = 2 * 5                                    \n";
+    source += "strVal=\"This is a string\"  + \"add\"       \n";
+    source += "print strVal                                 \n";
+    source += "print c                                      \n";
+    source += "print \"Hello world\"                        ";
 
     const LexerPtr lexer = std::make_shared<Lexer>(source);
     const ParserPtr parser = std::make_shared<Parser>(lexer);

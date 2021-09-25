@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(SimpleInterpreter
     Ast/ast.cpp
     Ast/binop.cpp
-    Ast/num.cpp
+    Ast/literal.cpp
     Ast/unaryop.cpp
     Ast/noop.cpp
     Ast/var.cpp
@@ -16,6 +16,7 @@ add_executable(SimpleInterpreter
     Ast/compound.cpp
     Ast/vardecl.cpp
     Ast/type.cpp
+    Ast/print.cpp
     basictype.cpp
     nodevisitor.cpp
     interpreter.cpp

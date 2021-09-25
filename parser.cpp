@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <iostream>
 #include "Ast/ast.h"
-#include "Ast/num.h"
+#include "Ast/literal.h"
 #include "Ast/binop.h"
 #include "Ast/unaryop.h"
 #include "Ast/noop.h"
@@ -12,6 +12,7 @@
 #include "Ast/compound.h"
 #include "Ast/vardecl.h"
 #include "Ast/type.h"
+#include "Ast/print.h"
 #include <memory>
 
 Parser::Parser(const LexerPtr lexer):
@@ -44,10 +45,10 @@ ASTPtr Parser::factor()
         return std::make_shared<UnaryOp>(token, factor());
     } else if (token->m_type == TokenType::INTEGER) {
         eat(TokenType::INTEGER);
-        return std::make_shared<Num>(token);
+        return std::make_shared<Literal>(token);
     } else if (token->m_type == TokenType::STRING) {
         eat(TokenType::STRING);
-        return std::make_shared<Num>(token);
+        return std::make_shared<Literal>(token);
     } else if(token->m_type == TokenType::LPAREN) {
         eat(TokenType::LPAREN);
         ASTPtr result = expr();
@@ -154,6 +155,9 @@ ASTPtr Parser::statement()
     {
         return assignment_statement();
     }
+    else if(m_currentToken->m_type == TokenType::PRINT) {
+        return print_statement();
+    }
     else
     {
         return empty();
@@ -168,9 +172,6 @@ std::vector<ASTPtr> Parser::statement_list()
         eat(TokenType::END_OF_LINE);
         result.push_back(statement());
     }
-//    if(m_currentToken->m_type == TokenType::ID){
-//        error();
-//    }
     return result;
 }
 
@@ -194,13 +195,14 @@ ASTPtr Parser::type_spec()
     /*
      * type_spec : INTEGER
     */
+    auto token = m_currentToken;
     if(m_currentToken->m_type == TokenType::INTEGER_TYPE)
     {
         eat(TokenType::INTEGER_TYPE);
     } else if (m_currentToken->m_type == TokenType::STRING_TYPE){
         eat(TokenType::STRING_TYPE);
     }
-    return std::make_shared<Type>(m_currentToken);
+    return std::make_shared<Type>(token);
 }
 
 ASTPtr Parser::variable_declaration() {
@@ -220,6 +222,7 @@ ASTPtr Parser::variable_declaration() {
 ASTPtr Parser::print_statement() {
     if(m_currentToken->m_type == TokenType::PRINT) {
         eat(TokenType::PRINT);
+        auto token = m_currentToken;
         if(m_currentToken->m_type == TokenType::ID) {
             eat(TokenType::ID);
         } else if(m_currentToken->m_type == TokenType::INTEGER) {
@@ -227,6 +230,6 @@ ASTPtr Parser::print_statement() {
         } else if(m_currentToken->m_type == TokenType::STRING) {
             eat(TokenType::STRING);
         }
+        return std::make_shared<Print>(token);
     }
-    return nullptr;
 }

@@ -10,4 +10,6 @@ public:
     Block();
 };
 
+CREATE_SHARED_PTR(Block);
+
 #endif // BLOCK_H

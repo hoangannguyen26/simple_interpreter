@@ -3,13 +3,15 @@
 
 #include <memory>
 #include "../basictype.h"
+#include "../token.h"
 
+#define CREATE_SHARED_PTR(name) using name##Ptr = std::shared_ptr<name>
 
 class AST
 {
 public:
     enum class NodeType {
-        Num,
+        Literal,
         BinOp,
         UnaryOp,
         NoOp,
@@ -19,18 +21,18 @@ public:
         Type,
         VarDecl,
         Block,
-        Program
+        Program,
+        Print,
     };
 public:
     explicit AST(const NodeType type) :
         m_type(type)
     {
-
     }
     virtual ~AST() {}
     NodeType m_type;
 };
 
-using ASTPtr = std::shared_ptr<AST>;
+CREATE_SHARED_PTR(AST);
 
 #endif // AST_H

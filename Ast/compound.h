@@ -11,6 +11,6 @@ public:
     std::vector<ASTPtr>         children;
 };
 
-using CompoundPtr = std::shared_ptr<Compound>;
+CREATE_SHARED_PTR(Compound);
 
 #endif // COMPOUND_H

@@ -1,14 +1,14 @@
-#include "num.h"
+#include "literal.h"
 #include <cctype>
 
-Num::Num(const TokenPtr& token):
-    AST(NodeType::Num),
+Literal::Literal(const TokenPtr& token):
+    AST(NodeType::Literal),
     m_token(token),
     m_value(token->m_value)
 {
 }
 
-Num::Num(const Num& other):
+Literal::Literal(const Literal& other):
     AST(other.m_type),
     m_token(other.m_token),
     m_value(other.m_value)

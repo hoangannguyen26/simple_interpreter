@@ -14,6 +14,6 @@ public:
     const std::string         m_value;  // variable name
 };
 
-using VarPtr = std::shared_ptr<Var>;
+CREATE_SHARED_PTR(Var);
 
 #endif // VAR_H

@@ -4,16 +4,16 @@
 #include "../token.h"
 
 
-class Num : public AST
+class Literal : public AST
 {
 public:
-    explicit Num(const TokenPtr& token);
-    Num(const Num&);
+    explicit Literal(const TokenPtr& token);
+    Literal(const Literal&);
 public:
     const TokenPtr            m_token;
     const BasicType           m_value;
 };
 
-using NumPtr = std::shared_ptr<Num>;
+CREATE_SHARED_PTR(Literal);
 
 #endif // NUM_H

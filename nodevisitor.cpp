@@ -3,7 +3,7 @@
 
 BasicType NodeVisitor::visit(const ASTPtr& node){
     switch (node->m_type) {
-    case AST::NodeType::Num:
+    case AST::NodeType::Literal:
         return visit_Num(node);
     case AST::NodeType::BinOp:
         return visit_BinOp(node);
@@ -19,6 +19,8 @@ BasicType NodeVisitor::visit(const ASTPtr& node){
         return visit_VarDecl(node);
     case AST::NodeType::Type:
         return visit_Type(node);
+    case AST::NodeType::Print:
+        return visit_Print(node);
     default:
         throw "Missing handle";
         return BasicType(0);

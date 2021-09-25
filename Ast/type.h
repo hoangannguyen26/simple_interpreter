@@ -12,6 +12,6 @@ public:
     std::string     m_value;
 };
 
-using TypePtr = std::shared_ptr<Type>;
+CREATE_SHARED_PTR(Type);
 
 #endif // TYPE_H

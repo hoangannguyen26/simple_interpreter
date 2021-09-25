@@ -9,6 +9,6 @@ public:
     NoOp();
 };
 
-using NoOpPtr = std::shared_ptr<NoOp>;
+CREATE_SHARED_PTR(NoOp);
 
 #endif // NOOP_H

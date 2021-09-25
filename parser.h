@@ -6,6 +6,7 @@
 #include "nodevisitor.h"
 #include "Ast/ast.h"
 #include "Ast/var.h"
+#include "Ast/literal.h"
 #include <vector>
 
 
@@ -25,6 +26,7 @@ private:
 
     ASTPtr              empty();
     VarPtr              variable();
+//    LiteralPtr          literal();
     ASTPtr              assignment_statement();
     ASTPtr              statement();
     std::vector<ASTPtr> statement_list();

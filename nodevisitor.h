@@ -3,21 +3,24 @@
 #include "Ast/ast.h"
 #include "basictype.h"
 
-
 class NodeVisitor
 {
+    #define CREATE_VISITOR(visitor) virtual BasicType visit_##visitor(const ASTPtr& node) = 0
+    #define OVERRIDE_VISITOR(visitor) BasicType visit_##visitor(const ASTPtr& node) override;
 public:
     NodeVisitor() = default;
     BasicType visit(const ASTPtr& node);
 protected:
-    virtual BasicType visit_BinOp(const ASTPtr& node) = 0;
-    virtual BasicType visit_Num(const ASTPtr& node) = 0;
-    virtual BasicType visit_UnaryOp(const ASTPtr& node) = 0;
-    virtual BasicType visit_Compound(const ASTPtr& node) = 0;
-    virtual BasicType visit_Assign(const ASTPtr& node) = 0;
-    virtual BasicType visit_Variable(const ASTPtr& node) = 0;
-    virtual BasicType visit_VarDecl(const ASTPtr &node) = 0;
-    virtual BasicType visit_Type(const ASTPtr &node) = 0;
+    CREATE_VISITOR(BinOp);
+    CREATE_VISITOR(Num);
+    CREATE_VISITOR(UnaryOp);
+    CREATE_VISITOR(Compound);
+    CREATE_VISITOR(Assign);
+    CREATE_VISITOR(Variable);
+    CREATE_VISITOR(VarDecl);
+    CREATE_VISITOR(Type);
+    CREATE_VISITOR(Print);
+
 };
 
 

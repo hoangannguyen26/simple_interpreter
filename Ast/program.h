@@ -10,4 +10,6 @@ public:
     Program();
 };
 
+CREATE_SHARED_PTR(Program);
+
 #endif // PROGRAM_H
