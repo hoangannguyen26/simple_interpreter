@@ -5,12 +5,8 @@
 class Print : public AST
 {
 public:
-    Print(const TokenPtr& token) :
-        AST(NodeType::Print),
-        m_token(token){
-
-        };
-    const TokenPtr        m_token;
+    Print(const ASTPtr& value);
+    const ASTPtr        m_value;
 };
 
 CREATE_SHARED_PTR(Print);

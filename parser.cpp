@@ -43,12 +43,8 @@ ASTPtr Parser::factor()
     } else if (token->m_type == TokenType::MINUS) {
         eat(TokenType::MINUS);
         return std::make_shared<UnaryOp>(token, factor());
-    } else if (token->m_type == TokenType::INTEGER) {
-        eat(TokenType::INTEGER);
-        return std::make_shared<Literal>(token);
-    } else if (token->m_type == TokenType::STRING) {
-        eat(TokenType::STRING);
-        return std::make_shared<Literal>(token);
+    } else if (token->m_type == TokenType::INTEGER || token->m_type == TokenType::STRING) {
+        return literal();
     } else if(token->m_type == TokenType::LPAREN) {
         eat(TokenType::LPAREN);
         ASTPtr result = expr();
@@ -129,6 +125,17 @@ VarPtr Parser::variable()
 
     VarPtr node = std::make_shared<Var>(m_currentToken);
     eat(TokenType::ID);
+    return node;
+}
+
+LiteralPtr Parser::literal()
+{
+    LiteralPtr node = std::make_shared<Literal>(m_currentToken);
+    if (m_currentToken->m_type == TokenType::INTEGER) {
+        eat(TokenType::INTEGER);
+    } else if (m_currentToken->m_type == TokenType::STRING) {
+        eat(TokenType::STRING);
+    }
     return node;
 }
 
@@ -224,12 +231,10 @@ ASTPtr Parser::print_statement() {
         eat(TokenType::PRINT);
         auto token = m_currentToken;
         if(m_currentToken->m_type == TokenType::ID) {
-            eat(TokenType::ID);
-        } else if(m_currentToken->m_type == TokenType::INTEGER) {
-            eat(TokenType::INTEGER);
-        } else if(m_currentToken->m_type == TokenType::STRING) {
-            eat(TokenType::STRING);
+            return std::make_shared<Print>(variable());
+        } else {
+            return std::make_shared<Print>(expr());
         }
-        return std::make_shared<Print>(token);
     }
+    return nullptr;
 }

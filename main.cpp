@@ -14,7 +14,8 @@ int main()
     source += "strVal=\"This is a string\"  + \"add\"       \n";
     source += "print strVal                                 \n";
     source += "print c                                      \n";
-    source += "print \"Hello world\"                        ";
+    source += "print \"Hello world\"                        \n";
+    source += "print 10 + 23";
 
     const LexerPtr lexer = std::make_shared<Lexer>(source);
     const ParserPtr parser = std::make_shared<Parser>(lexer);

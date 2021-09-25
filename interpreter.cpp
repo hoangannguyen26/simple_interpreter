@@ -118,18 +118,19 @@ BasicType Interpreter::visit_Type(const ASTPtr &astNode) {
 
 BasicType Interpreter::visit_Print(const ASTPtr &astNode) {
     GET_NODE(Print, astNode);
-    if(node->m_token->m_type == TokenType::ID) {
-        const std::string variableName = node->m_token->m_value.getString();
+    VarPtr variable = std::dynamic_pointer_cast<Var>(node->m_value);
+    if(variable) {
+        const std::string variableName = variable->m_value;
         // Check if the variable exist
         const auto it = GLOBAL_SCOPE.find(variableName);
         if(it != GLOBAL_SCOPE.end()) {
             std::cout << it->second;
+        } else {
+            throw "could not found variable";
         }
-
-    } else if(node->m_token->m_type == TokenType::INTEGER || node->m_token->m_type == TokenType::STRING) {
-        std::cout << node->m_token->m_value;
+    } else {
+       std::cout << visit(node->m_value);
     }
-    // Do nothing
     return BasicType();
 };
 
@@ -138,8 +139,5 @@ BasicType Interpreter::visit_Print(const ASTPtr &astNode) {
 BasicType Interpreter::interpret() {
     ASTPtr tree = m_parser->parse();
     BasicType result = visit(tree);
-    for(auto it = GLOBAL_SCOPE.begin(); it != GLOBAL_SCOPE.end(); it ++) {
-        std::cout << it->first << " -- " << it->second << std::endl;
-    }
     return result;
 }

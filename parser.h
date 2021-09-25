@@ -26,7 +26,7 @@ private:
 
     ASTPtr              empty();
     VarPtr              variable();
-//    LiteralPtr          literal();
+    LiteralPtr          literal();
     ASTPtr              assignment_statement();
     ASTPtr              statement();
     std::vector<ASTPtr> statement_list();
