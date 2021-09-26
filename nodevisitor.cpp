@@ -4,7 +4,7 @@
 BasicType NodeVisitor::visit(const ASTPtr& node){
     switch (node->m_type) {
     case AST::NodeType::Literal:
-        return visit_Num(node);
+        return visit_Literal(node);
     case AST::NodeType::BinOp:
         return visit_BinOp(node);
     case AST::NodeType::UnaryOp:

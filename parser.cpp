@@ -249,11 +249,7 @@ ASTPtr Parser::print_statement() {
     if(m_currentToken->m_type == TokenType::PRINT) {
         eat(TokenType::PRINT);
         auto token = m_currentToken;
-        if(m_currentToken->m_type == TokenType::ID) {
-            return std::make_shared<Print>(variable());
-        } else {
-            return std::make_shared<Print>(expr());
-        }
+        return std::make_shared<Print>(expr());
     }
     return nullptr;
 }

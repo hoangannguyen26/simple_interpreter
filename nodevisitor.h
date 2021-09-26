@@ -12,7 +12,7 @@ public:
     BasicType visit(const ASTPtr& node);
 protected:
     CREATE_VISITOR(BinOp);
-    CREATE_VISITOR(Num);
+    CREATE_VISITOR(Literal);
     CREATE_VISITOR(UnaryOp);
     CREATE_VISITOR(Block);
     CREATE_VISITOR(Assign);

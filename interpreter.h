@@ -13,9 +13,10 @@ public:
 private:
     ParserPtr           m_parser;
     std::map<std::string, BasicType>    GLOBAL_SCOPE;
+    BasicType           getVariableValue(const std::string&) const;
 
     OVERRIDE_VISITOR(BinOp);
-    OVERRIDE_VISITOR(Num);
+    OVERRIDE_VISITOR(Literal);
     OVERRIDE_VISITOR(UnaryOp);
     OVERRIDE_VISITOR(Block);
     OVERRIDE_VISITOR(Assign);

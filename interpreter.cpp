@@ -25,7 +25,7 @@ Interpreter::Interpreter(const ParserPtr& parser):
 {
 }
 
-BasicType Interpreter::visit_Num(const ASTPtr &astNode)
+BasicType Interpreter::visit_Literal(const ASTPtr &astNode)
 {
     GET_NODE(Literal, astNode);
     return BasicType(node->m_value);
@@ -33,17 +33,32 @@ BasicType Interpreter::visit_Num(const ASTPtr &astNode)
 
 BasicType Interpreter::visit_BinOp(const ASTPtr &astNode) {
     GET_NODE(BinOp, astNode);
+    auto left = visit(node->m_left);
+    auto right = visit(node->m_right);
+    if(node->m_left->m_type == AST::NodeType::Var) {
+        const VarPtr var = std::dynamic_pointer_cast<Var>(node->m_left);
+        if(var) {
+            left = getVariableValue(var->m_value);
+        }
+    }
+    if(node->m_right->m_type == AST::NodeType::Var) {
+        const VarPtr var = std::dynamic_pointer_cast<Var>(node->m_right);
+        if(var) {
+            right = getVariableValue(var->m_value);
+        }
+    }
+
     if(node->m_op->m_type == TokenType::PLUS) {
-        return visit(node->m_left) + visit(node->m_right);
+        return left + right;
     }
     if(node->m_op->m_type == TokenType::MINUS) {
-        return visit(node->m_left) - visit(node->m_right);
+        return left - right;
     }
     if(node->m_op->m_type == TokenType::MUL) {
-        return visit(node->m_left) * visit(node->m_right);
+        return left * right;
     }
     if(node->m_op->m_type == TokenType::DIV) {
-        return visit(node->m_left) / visit(node->m_right);
+        return left / right;
     }
     return BasicType();
 }
@@ -134,7 +149,13 @@ BasicType Interpreter::visit_Print(const ASTPtr &astNode) {
     return BasicType();
 };
 
-
+BasicType Interpreter::getVariableValue(const std::string& varName) const {
+    const auto it = GLOBAL_SCOPE.find(varName);
+    if(it != GLOBAL_SCOPE.end()) {
+        return it->second;
+    }
+    throw "Variable does not exist";
+}
 
 BasicType Interpreter::interpret() {
     ASTPtr tree = m_parser->parse();
