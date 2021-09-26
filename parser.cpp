@@ -9,7 +9,7 @@
 #include "Ast/noop.h"
 #include "Ast/var.h"
 #include "Ast/assign.h"
-#include "Ast/compound.h"
+#include "Ast/block.h"
 #include "Ast/vardecl.h"
 #include "Ast/type.h"
 #include "Ast/print.h"
@@ -155,7 +155,7 @@ ASTPtr Parser::assignment_statement()
 
 ASTPtr Parser::statement()
 {
-    //    compound_statement();
+    //    block();
     if(m_currentToken->m_type == TokenType::VAR) {
         return  variable_declaration();
     } else if(m_currentToken->m_type == TokenType::ID)
@@ -182,10 +182,10 @@ std::vector<ASTPtr> Parser::statement_list()
     return result;
 }
 
-ASTPtr Parser::compound_statement()
+ASTPtr Parser::block()
 {
     std::vector<ASTPtr> nodes = statement_list();
-    CompoundPtr root = std::make_shared<Compound>();
+    BlockPtr root = std::make_shared<Block>();
     for(const auto node: nodes) {
         root->children.push_back(node);
     }
@@ -194,7 +194,7 @@ ASTPtr Parser::compound_statement()
 
 ASTPtr Parser::program()
 {
-    return compound_statement();
+    return block();
 }
 
 ASTPtr Parser::type_spec()

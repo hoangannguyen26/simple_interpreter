@@ -1,7 +1,8 @@
 #include "block.h"
 
 Block::Block():
-    AST(NodeType::Block)
+    AST(NodeType::Block),
+    children({})
 {
 
 }

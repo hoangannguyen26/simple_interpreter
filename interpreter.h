@@ -17,7 +17,7 @@ private:
     OVERRIDE_VISITOR(BinOp);
     OVERRIDE_VISITOR(Num);
     OVERRIDE_VISITOR(UnaryOp);
-    OVERRIDE_VISITOR(Compound);
+    OVERRIDE_VISITOR(Block);
     OVERRIDE_VISITOR(Assign);
     OVERRIDE_VISITOR(Variable);
     OVERRIDE_VISITOR(VarDecl);

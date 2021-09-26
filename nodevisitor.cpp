@@ -13,8 +13,8 @@ BasicType NodeVisitor::visit(const ASTPtr& node){
         return visit_Assign(node);
     case AST::NodeType::Var:
         return visit_Variable(node);
-    case AST::NodeType::Compound:
-        return visit_Compound(node);
+    case AST::NodeType::Block:
+        return visit_Block(node);
     case AST::NodeType::VarDecl:
         return visit_VarDecl(node);
     case AST::NodeType::Type:

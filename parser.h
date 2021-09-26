@@ -30,7 +30,7 @@ private:
     ASTPtr              assignment_statement();
     ASTPtr              statement();
     std::vector<ASTPtr> statement_list();
-    ASTPtr              compound_statement();
+    ASTPtr              block();
     ASTPtr              program();
     ASTPtr              type_spec();
     ASTPtr              variable_declaration();

@@ -3,7 +3,7 @@
 #include "Ast/literal.h"
 #include "Ast/binop.h"
 #include "Ast/unaryop.h"
-#include "Ast/compound.h"
+#include "Ast/block.h"
 #include "Ast/unaryop.h"
 #include "Ast/var.h"
 #include "Ast/noop.h"
@@ -72,8 +72,8 @@ BasicType Interpreter::visit_Assign(const ASTPtr &astNode) {
     return BasicType();
 }
 
-BasicType Interpreter::visit_Compound(const ASTPtr &astNode) {
-    GET_NODE(Compound, astNode);
+BasicType Interpreter::visit_Block(const ASTPtr &astNode) {
+    GET_NODE(Block, astNode);
     for(const auto child : node->children) {
         visit(child);
     }

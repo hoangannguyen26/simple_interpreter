@@ -13,7 +13,7 @@ add_executable(SimpleInterpreter
     Ast/noop.cpp
     Ast/var.cpp
     Ast/assign.cpp
-    Ast/compound.cpp
+    Ast/block.cpp
     Ast/vardecl.cpp
     Ast/type.cpp
     Ast/print.cpp

@@ -14,7 +14,7 @@ protected:
     CREATE_VISITOR(BinOp);
     CREATE_VISITOR(Num);
     CREATE_VISITOR(UnaryOp);
-    CREATE_VISITOR(Compound);
+    CREATE_VISITOR(Block);
     CREATE_VISITOR(Assign);
     CREATE_VISITOR(Variable);
     CREATE_VISITOR(VarDecl);
