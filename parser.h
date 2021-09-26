@@ -38,6 +38,7 @@ private:
     ASTPtr              print_statement();
     int                 getTabLevel();
     ASTPtr              if_statement();
+    bool                m_exitFromBlock;
 };
 
 using ParserPtr = std::shared_ptr<Parser>;

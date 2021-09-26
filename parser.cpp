@@ -19,7 +19,8 @@
 Parser::Parser(const LexerPtr lexer):
     m_lexer (lexer),
     m_currentToken(m_lexer->getNextToken()),
-    m_currentTabLevel(0)
+    m_currentTabLevel(0),
+    m_exitFromBlock(false)
 {
 
 }
@@ -197,6 +198,7 @@ ASTPtr Parser::if_statement(){
     }
 }
 
+//static bool existFromBlock = false;
 
 ASTPtr Parser::block()
 {
@@ -204,16 +206,21 @@ ASTPtr Parser::block()
     BlockPtr root = std::make_shared<Block>();
     int tabLevel = getTabLevel();
     nodes.push_back(statement());
-    while (m_currentToken->m_type == TokenType::END_OF_LINE) {
-        eat(TokenType::END_OF_LINE);
+    while (m_currentToken->m_type == TokenType::END_OF_LINE || m_exitFromBlock) {
+        if(!m_exitFromBlock) {
+            eat(TokenType::END_OF_LINE);
+        }
+        tabLevel = getTabLevel();
         if(tabLevel > m_currentTabLevel)
         {
             throw "Incorrect syntax";
             break;
         } else if (tabLevel < m_currentTabLevel) {
+            m_exitFromBlock = true;
             m_currentTabLevel --;
             break;
         }
+        m_exitFromBlock = false;
         nodes.push_back(statement());
     }
 

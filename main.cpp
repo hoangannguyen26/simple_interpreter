@@ -18,8 +18,8 @@ int main()
     source += "print 10 + 23\n";
     source += "if c < 23\n";
     source += "\tprint \"Print in side IF\"\n";
-    // source += "\tprint \"Still in If\"\n";
-    source += "print c < 23";
+    source += "\tprint \"Still in If\"\n";
+    source += "print c > 23";
 
     const LexerPtr lexer = std::make_shared<Lexer>(source);
     const ParserPtr parser = std::make_shared<Parser>(lexer);
