@@ -21,6 +21,8 @@ BasicType NodeVisitor::visit(const ASTPtr& node){
         return visit_Type(node);
     case AST::NodeType::Print:
         return visit_Print(node);
+    case AST::NodeType::If:
+        return visit_IfCondition(node);
     default:
         throw "Missing handle";
         return BasicType(0);

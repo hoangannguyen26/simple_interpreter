@@ -73,6 +73,14 @@ TokenPtr Lexer::getNextToken() {
             advance();
             return std::make_shared<Token>(TokenType::TAB, "\t");
         }
+        if(m_currentChar == '>') {
+            advance();
+            return std::make_shared<Token>(TokenType::GREAT, ">");
+        }
+        if(m_currentChar == '<') {
+            advance();
+            return std::make_shared<Token>(TokenType::LESS, "<");
+        }
         error();
     }
     return std::make_shared<Token>(TokenType::END_OF_FILE, "");

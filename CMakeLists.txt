@@ -17,6 +17,7 @@ add_executable(SimpleInterpreter
     Ast/vardecl.cpp
     Ast/type.cpp
     Ast/print.cpp
+    Ast/ifcondition.cpp
     basictype.cpp
     nodevisitor.cpp
     interpreter.cpp

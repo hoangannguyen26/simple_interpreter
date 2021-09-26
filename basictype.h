@@ -65,6 +65,55 @@ public:
         return ret;
     }
 
+    bool operator>(const BasicType& other) {
+        if(this->m_type != other.m_type)
+        {
+            throw "invalid type";
+        }
+        if(this->m_type == SupportType::Int)
+        {
+            return this->intVal > other.intVal;
+        }
+        else
+        {
+            return this->strVal > other.strVal;
+        }
+    }
+
+    bool operator<(const BasicType& other) {
+        if(this->m_type != other.m_type)
+        {
+            throw "invalid type";
+        }
+        if(this->m_type == SupportType::Int)
+        {
+            return this->intVal < other.intVal;
+        }
+        else
+        {
+            return this->strVal < other.strVal;
+        }
+    }
+
+    bool operator==(const BasicType& other) {
+        if(this->m_type != other.m_type)
+        {
+            throw "invalid type";
+        }
+        if(this->m_type == SupportType::Int)
+        {
+            return this->intVal == other.intVal;
+        }
+        else
+        {
+            return this->strVal == other.strVal;
+        }
+    }
+
+    bool operator!=(const BasicType& other) {
+        return !(*this == other);
+    }
+
     BasicType operator-(const BasicType& other) {
         if(this->m_type != other.m_type)
         {

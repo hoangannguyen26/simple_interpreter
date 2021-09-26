@@ -22,6 +22,8 @@ enum class TokenType {
     IF,
     DO,
     TAB,
+    LESS,
+    GREAT,
     END_OF_LINE, // \n
     END_OF_FILE
 };

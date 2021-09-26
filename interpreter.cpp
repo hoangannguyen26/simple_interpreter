@@ -11,6 +11,7 @@
 #include "Ast/vardecl.h"
 #include "Ast/type.h"
 #include "Ast/print.h"
+#include "Ast/ifcondition.h"
 
 
 #define GET_NODE(nodeType, astNode)                                     \
@@ -59,6 +60,12 @@ BasicType Interpreter::visit_BinOp(const ASTPtr &astNode) {
     }
     if(node->m_op->m_type == TokenType::DIV) {
         return left / right;
+    }
+    if(node->m_op->m_type == TokenType::GREAT) {
+        return left > right;
+    }
+    if(node->m_op->m_type == TokenType::LESS) {
+        return left < right;
     }
     return BasicType();
 }
@@ -147,7 +154,16 @@ BasicType Interpreter::visit_Print(const ASTPtr &astNode) {
        std::cout << visit(node->m_value);
     }
     return BasicType();
-};
+}
+
+BasicType Interpreter::visit_IfCondition(const ASTPtr &astNode) {
+    GET_NODE(IfCondition, astNode);
+    auto condition = visit(node->m_condition);
+    if(condition != 0) {
+        return visit(node->m_block);
+    }
+}
+
 
 BasicType Interpreter::getVariableValue(const std::string& varName) const {
     const auto it = GLOBAL_SCOPE.find(varName);

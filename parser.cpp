@@ -13,6 +13,7 @@
 #include "Ast/vardecl.h"
 #include "Ast/type.h"
 #include "Ast/print.h"
+#include "Ast/ifcondition.h"
 #include <memory>
 
 Parser::Parser(const LexerPtr lexer):
@@ -84,7 +85,10 @@ ASTPtr Parser::expr()
      * factor: INTERGER | LPAREN expr RPAREN
     */
     ASTPtr result = term();
-    while (m_currentToken->m_type == TokenType::PLUS || m_currentToken->m_type == TokenType::MINUS) {
+    while (m_currentToken->m_type == TokenType::PLUS
+           || m_currentToken->m_type == TokenType::MINUS
+           || m_currentToken->m_type == TokenType::GREAT
+           || m_currentToken->m_type == TokenType::LESS) {
         TokenPtr token = m_currentToken;
         if(token->m_type == TokenType::PLUS)
         {
@@ -93,6 +97,14 @@ ASTPtr Parser::expr()
         else if(token->m_type == TokenType::MINUS)
         {
             eat(TokenType::MINUS);
+        }
+        else if(token->m_type == TokenType::GREAT)
+        {
+            eat(TokenType::GREAT);
+        }
+        else if(token->m_type == TokenType::LESS)
+        {
+            eat(TokenType::LESS);
         }
         result = std::make_shared<BinOp>(result, token, term());
     }
@@ -178,11 +190,11 @@ ASTPtr Parser::if_statement(){
     if(m_currentToken->m_type == TokenType::IF) {
         eat(TokenType::IF);
         m_currentTabLevel++;
+        ASTPtr condition = expr();
         eat(TokenType::END_OF_LINE);
         ASTPtr ifBlock = block();
-        return ifBlock;
+        return std::make_shared<IfCondition>(condition, ifBlock);
     }
-    return nullptr;
 }
 
 
