@@ -17,7 +17,8 @@
 
 Parser::Parser(const LexerPtr lexer):
     m_lexer (lexer),
-    m_currentToken(m_lexer->getNextToken())
+    m_currentToken(m_lexer->getNextToken()),
+    m_currentTabLevel(0)
 {
 
 }
@@ -155,7 +156,6 @@ ASTPtr Parser::assignment_statement()
 
 ASTPtr Parser::statement()
 {
-    //    block();
     if(m_currentToken->m_type == TokenType::VAR) {
         return  variable_declaration();
     } else if(m_currentToken->m_type == TokenType::ID)
@@ -165,27 +165,46 @@ ASTPtr Parser::statement()
     else if(m_currentToken->m_type == TokenType::PRINT) {
         return print_statement();
     }
+    else if(m_currentToken->m_type == TokenType::IF){
+        return if_statement();
+    }
     else
     {
         return empty();
     }
 }
 
-std::vector<ASTPtr> Parser::statement_list()
-{
-    std::vector<ASTPtr> result;
-    result.push_back(statement());
-    while (m_currentToken->m_type == TokenType::END_OF_LINE) {
+ASTPtr Parser::if_statement(){
+    if(m_currentToken->m_type == TokenType::IF) {
+        eat(TokenType::IF);
+        m_currentTabLevel++;
         eat(TokenType::END_OF_LINE);
-        result.push_back(statement());
+        ASTPtr ifBlock = block();
+        return ifBlock;
     }
-    return result;
+    return nullptr;
 }
+
 
 ASTPtr Parser::block()
 {
-    std::vector<ASTPtr> nodes = statement_list();
+    std::vector<ASTPtr> nodes;
     BlockPtr root = std::make_shared<Block>();
+    int tabLevel = getTabLevel();
+    nodes.push_back(statement());
+    while (m_currentToken->m_type == TokenType::END_OF_LINE) {
+        eat(TokenType::END_OF_LINE);
+        if(tabLevel > m_currentTabLevel)
+        {
+            throw "Incorrect syntax";
+            break;
+        } else if (tabLevel < m_currentTabLevel) {
+            m_currentTabLevel --;
+            break;
+        }
+        nodes.push_back(statement());
+    }
+
     for(const auto node: nodes) {
         root->children.push_back(node);
     }
@@ -237,4 +256,13 @@ ASTPtr Parser::print_statement() {
         }
     }
     return nullptr;
+}
+
+int Parser::getTabLevel(){
+    int count = 0;
+    while (m_currentToken->m_type == TokenType::TAB) {
+        count++;
+        eat(TokenType::TAB);
+    }
+    return count;
 }

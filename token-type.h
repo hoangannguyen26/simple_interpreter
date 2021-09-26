@@ -21,6 +21,7 @@ enum class TokenType {
     PRINT, // print
     IF,
     DO,
+    TAB,
     END_OF_LINE, // \n
     END_OF_FILE
 };

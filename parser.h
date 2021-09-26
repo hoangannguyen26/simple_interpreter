@@ -18,6 +18,7 @@ public:
 private:
     const               LexerPtr m_lexer;
     TokenPtr            m_currentToken;
+    int                 m_currentTabLevel;
     void                error();
     void                eat(TokenType tokenType);
     ASTPtr              factor();
@@ -35,6 +36,8 @@ private:
     ASTPtr              type_spec();
     ASTPtr              variable_declaration();
     ASTPtr              print_statement();
+    int                 getTabLevel();
+    ASTPtr              if_statement();
 };
 
 using ParserPtr = std::shared_ptr<Parser>;

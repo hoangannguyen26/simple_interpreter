@@ -11,7 +11,7 @@ Lexer::Lexer(const std::string& text):
 TokenPtr Lexer::getNextToken() {
     while (m_currentChar != EOF)
     {
-        if(std::isblank(m_currentChar))
+        if(std::isblank(m_currentChar) && m_currentChar != '\t')
         {
             skipWhiteSpace();
             continue;
@@ -67,6 +67,11 @@ TokenPtr Lexer::getNextToken() {
         if(m_currentChar == '"' )
         {
            return std::make_shared<Token>(TokenType::STRING, string());
+        }
+        if(m_currentChar == '\t')
+        {
+            advance();
+            return std::make_shared<Token>(TokenType::TAB, "\t");
         }
         error();
     }

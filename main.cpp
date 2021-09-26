@@ -15,6 +15,9 @@ int main()
     source += "print strVal                                 \n";
     source += "print c                                      \n";
     source += "print \"Hello world\"                        \n";
+    source += "print 10 + 23\n";
+    source += "if\n";
+    source += "\tprint \"Print in side IF\"\n";
     source += "print 10 + 23";
 
     const LexerPtr lexer = std::make_shared<Lexer>(source);

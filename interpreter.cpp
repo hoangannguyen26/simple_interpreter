@@ -68,7 +68,7 @@ BasicType Interpreter::visit_Assign(const ASTPtr &astNode) {
         throw "Variable is not defined";
         return BasicType();
     }
-    GLOBAL_SCOPE[varName] = visit(node->m_right);
+    GLOBAL_SCOPE[varName] = visit(node->m_right);;
     return BasicType();
 }
 

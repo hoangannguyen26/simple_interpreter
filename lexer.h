@@ -23,6 +23,7 @@ private:
     std::map<std::string, TokenPtr> RESERVED_KEYWORDS = {
         {"var", std::make_shared<Token> (TokenType::VAR, "var")},
         {"print", std::make_shared<Token> (TokenType::PRINT, "print")},
+        {"if", std::make_shared<Token> (TokenType::IF, "if")},
         {"do", std::make_shared<Token> (TokenType::DO, "do")}
     };
 };
