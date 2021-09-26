@@ -18,6 +18,7 @@ add_executable(SimpleInterpreter
     Ast/type.cpp
     Ast/print.cpp
     Ast/ifcondition.cpp
+    Ast/doloop.cpp
     basictype.cpp
     nodevisitor.cpp
     interpreter.cpp

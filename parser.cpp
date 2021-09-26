@@ -14,6 +14,7 @@
 #include "Ast/type.h"
 #include "Ast/print.h"
 #include "Ast/ifcondition.h"
+#include "Ast/doloop.h"
 #include <memory>
 
 Parser::Parser(const LexerPtr lexer):
@@ -181,6 +182,9 @@ ASTPtr Parser::statement()
     else if(m_currentToken->m_type == TokenType::IF){
         return if_statement();
     }
+    else if(m_currentToken->m_type == TokenType::DO){
+        return do_statement();
+    }
     else
     {
         return empty();
@@ -196,6 +200,20 @@ ASTPtr Parser::if_statement(){
         ASTPtr ifBlock = block();
         return std::make_shared<IfCondition>(condition, ifBlock);
     }
+    return nullptr;
+}
+
+ASTPtr Parser::do_statement()
+{
+    if(m_currentToken->m_type == TokenType::DO){
+        eat(TokenType::DO);
+        m_currentTabLevel++;
+        ASTPtr condition = expr();
+        eat(TokenType::END_OF_LINE);
+        ASTPtr doBlock = block();
+        return std::make_shared<DoLoop>(condition, doBlock);
+    }
+    return nullptr;
 }
 
 //static bool existFromBlock = false;

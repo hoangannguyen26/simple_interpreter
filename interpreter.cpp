@@ -12,6 +12,7 @@
 #include "Ast/type.h"
 #include "Ast/print.h"
 #include "Ast/ifcondition.h"
+#include "Ast/doloop.h"
 
 
 #define GET_NODE(nodeType, astNode)                                     \
@@ -151,7 +152,7 @@ BasicType Interpreter::visit_Print(const ASTPtr &astNode) {
             throw "could not found variable";
         }
     } else {
-       std::cout << visit(node->m_value);
+        std::cout << visit(node->m_value);
     }
     return BasicType();
 }
@@ -162,6 +163,29 @@ BasicType Interpreter::visit_IfCondition(const ASTPtr &astNode) {
     if(condition != 0) {
         return visit(node->m_block);
     }
+    return BasicType();
+}
+
+BasicType Interpreter::visit_DoLoop(const ASTPtr &astNode) {
+    GET_NODE(DoLoop, astNode);
+    int loop = 0;
+    if(node->m_condition->m_type == AST::NodeType::Var) {
+        const VarPtr var = std::dynamic_pointer_cast<Var>(node->m_condition);
+        if(var) {
+            loop = getVariableValue(var->m_value).getInt();
+        }
+    } else if(node->m_condition->m_type == AST::NodeType::BinOp) {
+        loop = visit(node->m_condition).getInt();
+    } else if (node->m_condition->m_type == AST::NodeType::Literal) {
+        const LiteralPtr num = std::dynamic_pointer_cast<Literal>(node->m_condition);
+        if(num) {
+            loop = num->m_value.getInt();
+        }
+    }
+    for(int i = 0; i < loop; i ++) {
+        visit(node->m_block);
+    }
+    return BasicType();
 }
 
 
@@ -170,7 +194,7 @@ BasicType Interpreter::getVariableValue(const std::string& varName) const {
     if(it != GLOBAL_SCOPE.end()) {
         return it->second;
     }
-    throw "Variable does not exist";
+    throw "Variable does not exist ";
 }
 
 BasicType Interpreter::interpret() {

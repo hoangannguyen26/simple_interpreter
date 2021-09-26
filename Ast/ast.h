@@ -23,6 +23,7 @@ public:
         Program,
         Print,
         If,
+        Do
     };
 public:
     explicit AST(const NodeType type) :

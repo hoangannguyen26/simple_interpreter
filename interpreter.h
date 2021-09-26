@@ -25,6 +25,7 @@ private:
     OVERRIDE_VISITOR(Type);
     OVERRIDE_VISITOR(Print);
     OVERRIDE_VISITOR(IfCondition);
+    OVERRIDE_VISITOR(DoLoop);
 };
 
 using InterpreterPtr = std::shared_ptr<Interpreter>;

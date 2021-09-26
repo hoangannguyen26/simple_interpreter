@@ -38,6 +38,7 @@ private:
     ASTPtr              print_statement();
     int                 getTabLevel();
     ASTPtr              if_statement();
+    ASTPtr              do_statement();
     bool                m_exitFromBlock;
 };
 
