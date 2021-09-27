@@ -22,6 +22,8 @@ protected:
     CREATE_VISITOR(Print);
     CREATE_VISITOR(IfCondition);
     CREATE_VISITOR(DoLoop);
+    CREATE_VISITOR(ToString);
+    CREATE_VISITOR(ToInt);
 
 };
 

@@ -28,6 +28,28 @@ public:
         return 0;
     }
 
+    BasicType toString() const {
+        if(m_type == SupportType::String)
+        {
+            return *this;
+        }
+        else
+        {
+            return BasicType(std::to_string(this->intVal));
+        }
+    }
+
+    BasicType toInt() const {
+        if(m_type == SupportType::Int)
+        {
+            return *this;
+        }
+        else
+        {
+            return BasicType(std::atoi(this->strVal.c_str()));
+        }
+    }
+
     std::string getString() const {
         if(m_type == SupportType::String) {
             return strVal;

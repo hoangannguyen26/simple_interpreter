@@ -39,6 +39,8 @@ private:
     int                 getTabLevel();
     ASTPtr              if_statement();
     ASTPtr              do_statement();
+    ASTPtr              to_int();
+    ASTPtr              to_string();
     bool                m_exitFromBlock;
 };
 

@@ -17,7 +17,7 @@ TokenPtr Lexer::getNextToken() {
             continue;
         }
 
-        if(std::isalpha(m_currentChar)) {
+        if(std::isalpha(m_currentChar) || m_currentChar == '_') {
             return id();
         }
 
@@ -135,7 +135,7 @@ std::string Lexer::string() {
 
 TokenPtr Lexer::id(){
     std::string result = "";
-    while (m_currentChar != EOF && std::isalpha(m_currentChar)) {
+    while (m_currentChar != EOF && (std::isalpha(m_currentChar) || m_currentChar == '_')) {
         result += m_currentChar;
         advance();
     }

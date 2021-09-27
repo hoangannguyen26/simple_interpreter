@@ -15,6 +15,8 @@
 #include "Ast/print.h"
 #include "Ast/ifcondition.h"
 #include "Ast/doloop.h"
+#include "Ast/tostring.h"
+#include "Ast/toint.h"
 #include <memory>
 
 Parser::Parser(const LexerPtr lexer):
@@ -54,6 +56,10 @@ ASTPtr Parser::factor()
         ASTPtr result = expr();
         eat(TokenType::RPAREN);
         return result;
+    } else if (token->m_type == TokenType::TO_STRING) {
+        return to_string();
+    } else if (token->m_type == TokenType::TO_INT) {
+        return to_int();
     } else {
         return variable();
     }
@@ -285,8 +291,54 @@ ASTPtr Parser::variable_declaration() {
 ASTPtr Parser::print_statement() {
     if(m_currentToken->m_type == TokenType::PRINT) {
         eat(TokenType::PRINT);
-        auto token = m_currentToken;
         return std::make_shared<Print>(expr());
+    }
+    return nullptr;
+}
+
+ASTPtr Parser::to_int()
+{
+    if(m_currentToken->m_type == TokenType::TO_INT) {
+        eat(TokenType::TO_INT);
+        auto token = m_currentToken;
+        if(token->m_type == TokenType::ID)
+        {
+            eat(TokenType::ID);
+            return std::make_shared<ToInt>(token);
+        }
+        if(token->m_type == TokenType::STRING)
+        {
+            eat(TokenType::STRING);
+            return std::make_shared<ToInt>(token);
+        }
+        if(token->m_type == TokenType::INTEGER)
+        {
+            eat(TokenType::INTEGER);
+            return std::make_shared<ToInt>(token);
+        }
+    }
+    return nullptr;
+}
+ASTPtr Parser::to_string()
+{
+    if(m_currentToken->m_type == TokenType::TO_STRING) {
+        eat(TokenType::TO_STRING);
+        auto token = m_currentToken;
+        if(token->m_type == TokenType::ID)
+        {
+            eat(TokenType::ID);
+            return std::make_shared<ToString>(token);
+        }
+        if(token->m_type == TokenType::STRING)
+        {
+            eat(TokenType::STRING);
+            return std::make_shared<ToString>(token);
+        }
+        if(token->m_type == TokenType::INTEGER)
+        {
+            eat(TokenType::INTEGER);
+            return std::make_shared<ToString>(token);
+        }
     }
     return nullptr;
 }

@@ -13,6 +13,8 @@
 #include "Ast/print.h"
 #include "Ast/ifcondition.h"
 #include "Ast/doloop.h"
+#include"Ast/tostring.h"
+#include"Ast/toint.h"
 
 
 #define GET_NODE(nodeType, astNode)                                     \
@@ -186,6 +188,24 @@ BasicType Interpreter::visit_DoLoop(const ASTPtr &astNode) {
         visit(node->m_block);
     }
     return BasicType();
+}
+
+BasicType Interpreter::visit_ToString(const ASTPtr &astNode){
+    GET_NODE(ToString, astNode);
+    if(node->m_data->m_type == TokenType::ID) {
+        auto variable = getVariableValue(node->m_data->m_value.getString());
+        return variable.toString();
+    }
+    return node->m_data->m_value.toString();
+}
+
+BasicType Interpreter::visit_ToInt(const ASTPtr &astNode){
+    GET_NODE(ToInt, astNode);
+    if(node->m_data->m_type == TokenType::ID) {
+        auto variable = getVariableValue(node->m_data->m_value.getString());
+        return variable.toInt();
+    }
+    return node->m_data->m_value.toInt();
 }
 
 

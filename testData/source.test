@@ -13,4 +13,5 @@ print c
 do c
 	print c
 	print "In do"
+print to_string 123
 print "DONE"

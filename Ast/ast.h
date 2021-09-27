@@ -23,7 +23,9 @@ public:
         Program,
         Print,
         If,
-        Do
+        Do,
+        ToString,
+        ToInt
     };
 public:
     explicit AST(const NodeType type) :

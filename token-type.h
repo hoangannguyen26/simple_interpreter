@@ -24,6 +24,8 @@ enum class TokenType {
     TAB,
     LESS,
     GREAT,
+    TO_INT,
+    TO_STRING,
     END_OF_LINE, // \n
     END_OF_FILE
 };

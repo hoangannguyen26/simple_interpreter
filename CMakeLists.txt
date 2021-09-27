@@ -19,6 +19,8 @@ add_executable(SimpleInterpreter
     ${CMAKE_SOURCE_DIR}/Ast/print.cpp
     ${CMAKE_SOURCE_DIR}/Ast/ifcondition.cpp
     ${CMAKE_SOURCE_DIR}/Ast/doloop.cpp
+    ${CMAKE_SOURCE_DIR}/Ast/tostring.cpp
+    ${CMAKE_SOURCE_DIR}/Ast/toint.cpp
     ${CMAKE_SOURCE_DIR}/basictype.cpp
     ${CMAKE_SOURCE_DIR}/nodevisitor.cpp
     ${CMAKE_SOURCE_DIR}/interpreter.cpp

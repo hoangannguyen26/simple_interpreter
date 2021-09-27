@@ -24,7 +24,9 @@ private:
         {"var", std::make_shared<Token> (TokenType::VAR, "var")},
         {"print", std::make_shared<Token> (TokenType::PRINT, "print")},
         {"if", std::make_shared<Token> (TokenType::IF, "if")},
-        {"do", std::make_shared<Token> (TokenType::DO, "do")}
+        {"do", std::make_shared<Token> (TokenType::DO, "do")},
+        {"to_int", std::make_shared<Token> (TokenType::TO_INT, "to_int")},
+        {"to_string", std::make_shared<Token> (TokenType::TO_STRING, "to_string")},
     };
 };
 
