@@ -7,9 +7,10 @@
 class VarDecl : public AST
 {
 public:
-    VarDecl(const ASTPtr& var, const ASTPtr& type);
-    ASTPtr          m_var_node;
-    ASTPtr          m_type_node;
+    VarDecl(const ASTPtr& var, const ASTPtr& type, const ASTPtr& value);
+    const ASTPtr          m_var_node;
+    const ASTPtr          m_type_node;
+    const ASTPtr          m_initialization_value;
 };
 
 CREATE_SHARED_PTR(VarDecl);

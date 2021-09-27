@@ -127,10 +127,15 @@ BasicType Interpreter::visit_VarDecl(const ASTPtr &astNode) {
     // check if the variable exists
     auto variableName = varNode->m_value;
     if(GLOBAL_SCOPE.find(variableName) != GLOBAL_SCOPE.end()) {
-        throw "";
+        throw "Variable exist";
         return BasicType();
     }
+
     GLOBAL_SCOPE[variableName] = BasicType();
+    if(node->m_initialization_value) {
+        auto init = visit(node->m_initialization_value);
+         GLOBAL_SCOPE[variableName] = init;
+    }
 
     return BasicType();
 }

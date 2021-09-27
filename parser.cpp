@@ -283,7 +283,12 @@ ASTPtr Parser::variable_declaration() {
         ASTPtr type_node = type_spec();
         eat(TokenType::ID);
         VarPtr var_node = variable();
-        return std::make_shared<VarDecl>(var_node, type_node);
+        ASTPtr initialization = nullptr;
+        if(m_currentToken->m_type == TokenType::ASSIGN) {
+            eat(TokenType::ASSIGN);
+            initialization = expr();
+        }
+        return std::make_shared<VarDecl>(var_node, type_node, initialization);
     }
     return nullptr;
 }
