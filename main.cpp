@@ -2,31 +2,35 @@
 #include "parser.h"
 #include "lexer.h"
 #include "interpreter.h"
+#include <fstream>
 
-using namespace std;
-
-int main()
+int main(const int argc, const char** argv)
 {
-    std::string source;
-    source += "var string strVal                            \n";
-    source += "var int c                                    \n" ;
-    source += "c = 2 * 5                                    \n";
-    source += "strVal=\"This is a string\"  + \"add\"       \n";
-    source += "print strVal                                 \n";
-    source += "print c                                      \n";
-    source += "print \"Hello world\"                        \n";
-    source += "print 10 + 23                                \n";
-    source += "if c < 23                                    \n";
-    source += "\tprint \"Print in side IF\"                 \n";
-    source += "\tc = c + 3                                  \n";
-    source += "print c                                      \n";
-    source += "do c                                         \n";
-    source += "\tprint c                                    \n";
-    source += "\tprint \"In do\"                            \n";
-    source += "print \"DONE\"";
+    std::string sourceName = "source.test";
+    if(argc == 2) {
+        sourceName = argv[1];
+    } else {
+        std::cout << "Usage: " <<  argv[0] << "source file " << std::endl;
+//         exit(1);
+    }
 
+    // read source file
+    std::ifstream file(sourceName);
+    std::string source;
+    if(file.is_open())
+    {
+        std::string line;
+        while (getline(file, line)) {
+            source += line + '\n';
+        }
+        file.close();
+    }
+    // remove last \n
+    int len = source.length();
+    source[len - 1] = EOF;
     const LexerPtr lexer = std::make_shared<Lexer>(source);
     const ParserPtr parser = std::make_shared<Parser>(lexer);
     const InterpreterPtr interpreter = std::make_shared<Interpreter>(parser);
     BasicType result = interpreter->interpret();
+    return 0;
 }
