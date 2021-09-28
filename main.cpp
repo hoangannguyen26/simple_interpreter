@@ -8,11 +8,12 @@
 int main(const int argc, const char** argv)
 {
     std::string sourceName = "source.test";
-    if(argc == 2) {
+    if(argc >= 2) {
         sourceName = argv[1];
     } else {
-        std::cout << "Usage: " <<  argv[0] << "source file " << std::endl;
-//         exit(1);
+        std::cout << "Source is not specified." << std::endl;
+        std::cout << "Usage: " <<  argv[0] << " path_to_source_file" << std::endl;
+        exit(1);
     }
 
     // read source file
@@ -25,6 +26,9 @@ int main(const int argc, const char** argv)
             source += line + '\n';
         }
         file.close();
+    } else {
+        std::cout<<"Error: could not open file `" + sourceName +"`" << std::endl;
+        exit(1);
     }
     // remove last \n
     int len = source.length();
