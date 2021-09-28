@@ -2,6 +2,7 @@
 #include "parser.h"
 #include "lexer.h"
 #include "interpreter.h"
+#include "Exception/myexception.h"
 #include <fstream>
 
 int main(const int argc, const char** argv)
@@ -31,6 +32,12 @@ int main(const int argc, const char** argv)
     const LexerPtr lexer = std::make_shared<Lexer>(source);
     const ParserPtr parser = std::make_shared<Parser>(lexer);
     const InterpreterPtr interpreter = std::make_shared<Interpreter>(parser);
-    BasicType result = interpreter->interpret();
+
+    try {
+        interpreter->interpret();
+    } catch (const MyException& e) {
+        std::cout << std::endl << e.what() << std::endl;
+    }
+    std::cout << std::endl;
     return 0;
 }

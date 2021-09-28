@@ -1,17 +1,21 @@
-var string strVal
-var int c
-c = 2 * 5
-strVal= "This is a string"  + "add"
-print strVal
-print c
-print "Hello world"
-print 10 + 23
-if c < 23
-	print "Print in side IF"
-	c = c + 3
-print c
-do c
-	print c
-	print "In do"
-print to_string 123
-print "DONE"
+var string firstName = "Nguyen "
+var string lastName = "Hoang An"
+var string name = "My name is:" + firstName + lastName 
+print name
+var int test
+var int value
+var string result
+test = 10
+value = 1
+result = "string"
+
+do test
+	value = value + 1
+	result = result + to_string value
+
+print result
+if value > 10
+	print "BIG"
+
+print 10 + 1
+print notFound
