@@ -182,10 +182,10 @@ public:
     {
         if(obj.m_type == SupportType::Int)
         {
-            os << obj.intVal << std::endl;
+            os << obj.intVal;
         } else if (obj.m_type == SupportType::String)
         {
-            os << obj.strVal << std::endl;
+            os << obj.strVal;
         }
         return os;
     }
