@@ -54,6 +54,7 @@ Variable name must start with a letter
 ----
 
 ### How to implement a new `statement`
+- Refer to commit: https://github.com/hoangannguyen26/simple_interpreter/commit/98d245870128a9e6bc1d8637f21c2a4f8064d619. This commit holds the implementation of the DO statement.
 
 + Add a new token type that corresponding to the new `statement`: edit `token_type.h`
 
@@ -85,4 +86,6 @@ Variable name must start with a letter
 
 + Add a new AST (Abstract Syntax Tree) node for new `statement` in /Ast directory.
 + Update the the interpreter to handle the logic for new `statement`:
+  + add a new visitor function for the new statement.
+  + implement the logic of this statement in its visiter funtion.
 
