@@ -8,8 +8,8 @@
 class Assign : public AST
 {
 public:
-    Assign(const VarPtr& left, const TokenPtr& op, const ASTPtr& right);
-    VarPtr          m_left;
+    Assign(const ASTPtr& left, const TokenPtr& op, const ASTPtr& right);
+    ASTPtr          m_left;
     TokenPtr        m_op;
     ASTPtr          m_right;
 };

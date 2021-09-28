@@ -91,7 +91,7 @@ TokenPtr Lexer::getNextToken() {
 
 
 void Lexer::error() {
-    throw LexerException("Error at line: " + std::to_string(m_currentLine) + " character " + m_currentChar);
+    throw LexerException("Error at line: " + std::to_string(m_currentLine) + " character `" + m_currentChar+"`");
 }
 
 
@@ -138,7 +138,7 @@ std::string Lexer::string() {
 
 TokenPtr Lexer::id(){
     std::string result = "";
-    while (m_currentChar != EOF && (std::isalpha(m_currentChar) || m_currentChar == '_')) {
+    while (m_currentChar != EOF && (std::isalnum(m_currentChar) || m_currentChar == '_')) {
         result += m_currentChar;
         advance();
     }

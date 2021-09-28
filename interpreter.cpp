@@ -31,7 +31,7 @@ Interpreter::Interpreter(const ParserPtr& parser):
 }
 
 BasicType Interpreter::error(const std::string& message){
-    throw InterpreterException("Error: " + message + ": "+ m_currentToken->m_value.getString() +" at line: " + std::to_string(m_currentToken->m_line));
+    throw InterpreterException("Error: " + message + " at line: " + std::to_string(m_currentToken->m_line));
     return BasicType();
 }
 
@@ -94,11 +94,14 @@ BasicType Interpreter::visit_UnaryOp(const ASTPtr &astNode){
 
 BasicType Interpreter::visit_Assign(const ASTPtr &astNode) {
     GET_NODE(Assign, astNode);
-    const std::string varName = node->m_left->m_value;
-    if(GLOBAL_SCOPE.find(varName) == GLOBAL_SCOPE.end()) {
-        return error("Variable is not defined");
+    VarPtr var = std::dynamic_pointer_cast<Var>(node->m_left);
+    if(var) {
+        std::string varName = var->m_value;
+        if(GLOBAL_SCOPE.find(varName) == GLOBAL_SCOPE.end()) {
+            return error("Variable `"+varName+"` is not defined");
+        }
+        GLOBAL_SCOPE[varName] = visit(node->m_right);;
     }
-    GLOBAL_SCOPE[varName] = visit(node->m_right);;
     return BasicType();
 }
 
@@ -130,7 +133,7 @@ BasicType Interpreter::visit_VarDecl(const ASTPtr &astNode) {
     // check if the variable exists
     auto variableName = varNode->m_value;
     if(GLOBAL_SCOPE.find(variableName) != GLOBAL_SCOPE.end()) {
-        return error("Variable exist");
+        return error("Variable `" +variableName +"` already exists.");
     }
 
     GLOBAL_SCOPE[variableName] = BasicType();
@@ -167,7 +170,7 @@ BasicType Interpreter::visit_Print(const ASTPtr &astNode) {
         if(it != GLOBAL_SCOPE.end()) {
             std::cout << it->second;
         } else {
-            error("could not found variable");
+            error("could not found variable: `" + variableName+"`");
         }
     } else {
         std::cout << visit(node->m_value);
@@ -230,7 +233,7 @@ BasicType Interpreter::getVariableValue(const std::string& varName) {
     if(it != GLOBAL_SCOPE.end()) {
         return it->second;
     }
-    return error( "Variable does not exist ");
+    return error( "Variable `"+varName+"` does not exist ");
 }
 
 BasicType Interpreter::interpret() {

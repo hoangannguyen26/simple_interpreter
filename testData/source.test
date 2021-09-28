@@ -2,14 +2,13 @@ var string firstName = "Nguyen "
 var string lastName = "Hoang An"
 var string name = "My name is:" + firstName + lastName 
 print name
-var int test
-var int value
+var int test10
 var string result
-test = 10
-value = 1
+test10 = 10
+var int value = 1
 result = "string"
 
-do test
+do test10
 	value = value + 1
 	result = result + to_string value
 

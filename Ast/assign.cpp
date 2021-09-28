@@ -1,6 +1,6 @@
 #include "assign.h"
 
-Assign::Assign(const VarPtr& left, const TokenPtr& op, const ASTPtr& right) :
+Assign::Assign(const ASTPtr& left, const TokenPtr& op, const ASTPtr& right) :
     AST(NodeType::Assign, op),
     m_left(left),
     m_op(op),

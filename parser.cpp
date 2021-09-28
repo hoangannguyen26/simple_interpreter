@@ -141,15 +141,17 @@ ASTPtr Parser::empty()
     return std::make_shared<NoOp>(m_LastToken);
 }
 
-VarPtr Parser::variable()
+ASTPtr Parser::variable()
 {
     /*
         variable : ID
     */
-
-    VarPtr node = std::make_shared<Var>(m_currentToken);
-    eat(TokenType::ID);
-    return node;
+    if(m_currentToken->m_type == TokenType::ID) {
+        VarPtr node = std::make_shared<Var>(m_currentToken);
+        eat(TokenType::ID);
+        return node;
+    }
+    return error();
 }
 
 LiteralPtr Parser::literal()
@@ -169,7 +171,7 @@ ASTPtr Parser::assignment_statement()
      * assignment_statement : variable ASSIGN expr
      *  ex: test = 1
      */
-    VarPtr left = variable();
+    ASTPtr left = variable();
     TokenPtr token = m_currentToken;
     eat(TokenType::ASSIGN);
     ASTPtr right = expr();
@@ -283,7 +285,7 @@ ASTPtr Parser::variable_declaration() {
     if(m_currentToken->m_type == TokenType::VAR){
         eat(TokenType::VAR);
         ASTPtr type_node = type_spec();
-        VarPtr var_node = variable();
+        ASTPtr var_node = variable();
         ASTPtr initialization = nullptr;
         if(m_currentToken->m_type == TokenType::ASSIGN) {
             eat(TokenType::ASSIGN);

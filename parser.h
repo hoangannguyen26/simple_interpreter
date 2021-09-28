@@ -27,7 +27,7 @@ private:
     ASTPtr              expr();
 
     ASTPtr              empty();
-    VarPtr              variable();
+    ASTPtr              variable();
     LiteralPtr          literal();
     ASTPtr              assignment_statement();
     ASTPtr              statement();
