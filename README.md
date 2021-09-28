@@ -8,7 +8,7 @@
 
 ### Refer idea from: https://ruslanspivak.com/lsbasi-part1/
 
-### More information about `A`bstract `S`yntax `T`ree, please refer here: https://ruslanspivak.com/lsbasi-part7/
+More information about `A`bstract `S`yntax `T`ree, please refer here: https://ruslanspivak.com/lsbasi-part7/
 
 ### How to build
 - `mkdir build`
