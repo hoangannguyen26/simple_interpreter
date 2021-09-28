@@ -41,12 +41,12 @@ Variable name must start with a letter
 - support only `<` and `>`
 
         If test > 10
-        print test
+                print test
         or
         if test2 > test1
-        print “It’s bigger!”
+                print “It’s bigger!”
 
 ### 5. Cycles:
 
         do 10
-        print “It will be printed 10 times!”
+                print “It will be printed 10 times!”
