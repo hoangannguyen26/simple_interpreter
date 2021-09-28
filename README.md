@@ -50,3 +50,39 @@ Variable name must start with a letter
 
         do 10
                 print “It will be printed 10 times!”
+
+----
+
+### How to implement a new `statement`
+
++ Add a new token type that corresponding to the new `statement`: edit `token_type.h`
+
+        enum class TokenType {
+                INTEGER,
+                INTEGER_TYPE,
+                STRING,
+                STRING_TYPE,
+                ...
+                NEW_TOKEN_TYPE
+        };
+
++ Add new keyword if has: edit lexer.h
+
+        std::map<std::string, TokenPtr> RESERVED_KEYWORDS = {
+                {"var", std::make_shared<Token> (TokenType::VAR, "var")},
+                {"int", std::make_shared<Token> (TokenType::INTEGER_TYPE, "int")},
+                ...
+                {"new_keyword", std::make_shared<Token> (TokenType::NEW_TOKEN_TYPE, "new_keyword")},
+        };
++ then update `Lexer::getNextToken()` to handle for new token type.
+
++ Update the parser.cpp to parser for the new `statement`
+        ASTPtr              do_statement();
+        ASTPtr              to_int();
+        ASTPtr              to_string();
+        ...
+        ASTPtr              new_statement();
+
++ Add a new AST (Abstract Syntax Tree) node for new `statement` in /Ast directory.
++ Update the the interpreter to handle the logic for new `statement`:
+
