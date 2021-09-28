@@ -1,5 +1,11 @@
 ### That is a very simple interpreter written in C++ (C++ 11) language.
 
+### The main idea:
+
+![](./images/lsbasi_part7_pipeline.png)
+
+(image from: https://ruslanspivak.com)
+
 ### Refer idea from: https://ruslanspivak.com/lsbasi-part1/
 
 ### How to build
