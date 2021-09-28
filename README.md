@@ -3,7 +3,7 @@
 ### Refer idea from: https://ruslanspivak.com/lsbasi-part1/
 
 ### How to build
-- `mkdir buidl`
+- `mkdir build`
 - `cd build && cmake .. && make`
 
 ### How to run
