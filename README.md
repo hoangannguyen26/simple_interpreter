@@ -1,4 +1,4 @@
-### That is a very simple interpreter write in C++.
+### That is a very simple interpreter written in C++ (C++ 11) language.
 
 ### Refer idea from: https://ruslanspivak.com/lsbasi-part1/
 
