@@ -132,9 +132,18 @@ BasicType Interpreter::visit_VarDecl(const ASTPtr &astNode) {
     }
 
     GLOBAL_SCOPE[variableName] = BasicType();
+
+    if(typeNode->m_token->m_type == TokenType::STRING_TYPE) {
+        GLOBAL_SCOPE[variableName] = BasicType("");
+    }
+
+    if(typeNode->m_token->m_type == TokenType::INTEGER_TYPE) {
+        GLOBAL_SCOPE[variableName] = BasicType(0);
+    }
+
     if(node->m_initialization_value) {
         auto init = visit(node->m_initialization_value);
-         GLOBAL_SCOPE[variableName] = init;
+        GLOBAL_SCOPE[variableName] = init;
     }
 
     return BasicType();

@@ -281,7 +281,6 @@ ASTPtr Parser::variable_declaration() {
     if(m_currentToken->m_type == TokenType::VAR){
         eat(TokenType::VAR);
         ASTPtr type_node = type_spec();
-        eat(TokenType::ID);
         VarPtr var_node = variable();
         ASTPtr initialization = nullptr;
         if(m_currentToken->m_type == TokenType::ASSIGN) {
