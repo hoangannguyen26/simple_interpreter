@@ -28,6 +28,10 @@ add_executable(SimpleInterpreter
     ${CMAKE_SOURCE_DIR}/lexer.cpp
     ${CMAKE_SOURCE_DIR}/token.cpp
     ${CMAKE_SOURCE_DIR}/main.cpp
+    ${CMAKE_SOURCE_DIR}/Exception/myexception.cpp
+    ${CMAKE_SOURCE_DIR}/Exception/parserexception.cpp
+    ${CMAKE_SOURCE_DIR}/Exception/lexerexception.cpp
+    ${CMAKE_SOURCE_DIR}/Exception/interpreterexception.cpp
     )
 message(STATUS "Working dir${CMAKE_CURRENT_BINARY_DIR}")
 message(STATUS "Working dir${CMAKE_SOURCE_DIR}")

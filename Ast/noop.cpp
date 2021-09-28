@@ -1,7 +1,7 @@
 #include "noop.h"
 
-NoOp::NoOp():
-    AST(NodeType::NoOp)
+NoOp::NoOp(const TokenPtr& token):
+    AST(NodeType::NoOp, token)
 {
 
 }

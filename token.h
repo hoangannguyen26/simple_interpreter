@@ -9,9 +9,11 @@
 class Token
 {
 public:
-    explicit Token(const TokenType type, const BasicType& m_value);
+    explicit Token(const TokenType& type, const BasicType& m_value, const unsigned line = 0);
     const TokenType m_type;
     const BasicType m_value;
+    unsigned  m_line;
+    void setLine(const unsigned line);
 };
 
 using TokenPtr = std::shared_ptr<Token>;

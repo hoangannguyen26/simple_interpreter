@@ -7,9 +7,10 @@
 class IfCondition : public AST
 {
 public:
-    IfCondition(const ASTPtr& condition, const ASTPtr& block);
+    IfCondition(const ASTPtr& condition, const ASTPtr& block, const TokenPtr& token);
     const ASTPtr            m_condition;
     const ASTPtr            m_block;
+    const TokenPtr  m_token;
 };
 
 CREATE_SHARED_PTR(IfCondition);

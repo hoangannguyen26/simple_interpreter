@@ -13,7 +13,9 @@ public:
 private:
     ParserPtr           m_parser;
     std::map<std::string, BasicType>    GLOBAL_SCOPE;
-    BasicType           getVariableValue(const std::string&) const;
+    BasicType           getVariableValue(const std::string&);
+    BasicType           error(const std::string& message = "");
+    TokenPtr            m_currentToken;
 
     OVERRIDE_VISITOR(BinOp);
     OVERRIDE_VISITOR(Literal);

@@ -5,7 +5,7 @@
 class Print : public AST
 {
 public:
-    Print(const ASTPtr& value);
+    Print(const ASTPtr& value, const TokenPtr& token);
     const ASTPtr        m_value;
 };
 

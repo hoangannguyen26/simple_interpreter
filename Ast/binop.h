@@ -9,7 +9,6 @@ class BinOp : public AST
 {
 public:
     explicit BinOp(const ASTPtr& left, const TokenPtr& op, const ASTPtr& right);
-    BinOp(const BinOp& other);
 public:
     const ASTPtr            m_left;
     const TokenPtr          m_op;

@@ -18,8 +18,9 @@ public:
 private:
     const               LexerPtr m_lexer;
     TokenPtr            m_currentToken;
+    TokenPtr            m_LastToken;
     int                 m_currentTabLevel;
-    void                error();
+    ASTPtr                error();
     void                eat(TokenType tokenType);
     ASTPtr              factor();
     ASTPtr              term();

@@ -1,7 +1,7 @@
 #include "block.h"
 
-Block::Block():
-    AST(NodeType::Block),
+Block::Block(const TokenPtr& token):
+    AST(NodeType::Block, token),
     children({})
 {
 

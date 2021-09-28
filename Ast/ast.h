@@ -20,7 +20,6 @@ public:
         Type,
         VarDecl,
         Block,
-        Program,
         Print,
         If,
         Do,
@@ -28,12 +27,14 @@ public:
         ToInt
     };
 public:
-    explicit AST(const NodeType type) :
-        m_type(type)
+    explicit AST(const NodeType type, const TokenPtr& token) :
+        m_type(type),
+        m_token(token)
     {
     }
     virtual ~AST() {}
     NodeType m_type;
+    const TokenPtr m_token;
 };
 
 CREATE_SHARED_PTR(AST);

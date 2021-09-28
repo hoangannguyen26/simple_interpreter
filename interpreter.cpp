@@ -13,20 +13,26 @@
 #include "Ast/print.h"
 #include "Ast/ifcondition.h"
 #include "Ast/doloop.h"
-#include"Ast/tostring.h"
-#include"Ast/toint.h"
+#include "Ast/tostring.h"
+#include "Ast/toint.h"
+#include "Exception/interpreterexception.h"
 
 
 #define GET_NODE(nodeType, astNode)                                     \
     nodeType##Ptr node = std::dynamic_pointer_cast<nodeType>(astNode);  \
+    m_currentToken = astNode->m_token;                                  \
     if(node == nullptr) {                                               \
-        std::cout << "!!! ERROR !!! could not get node" <<#nodeType;  \
-        return BasicType();                                             \
+        return error("!!! ERROR !!! could not get node");  \
     }                                                                   \
 
 Interpreter::Interpreter(const ParserPtr& parser):
     m_parser(parser)
 {
+}
+
+BasicType Interpreter::error(const std::string& message){
+    throw InterpreterException("Error: " + message + ": "+ m_currentToken->m_value.getString() +" at line: " + std::to_string(m_currentToken->m_line));
+    return BasicType();
 }
 
 BasicType Interpreter::visit_Literal(const ASTPtr &astNode)
@@ -70,7 +76,7 @@ BasicType Interpreter::visit_BinOp(const ASTPtr &astNode) {
     if(node->m_op->m_type == TokenType::LESS) {
         return left < right;
     }
-    return BasicType();
+    return error();
 }
 
 BasicType Interpreter::visit_UnaryOp(const ASTPtr &astNode){
@@ -83,15 +89,14 @@ BasicType Interpreter::visit_UnaryOp(const ASTPtr &astNode){
     {
         return - visit(node->m_expr);
     }
-    return BasicType();
+    return error();
 }
 
 BasicType Interpreter::visit_Assign(const ASTPtr &astNode) {
     GET_NODE(Assign, astNode);
     const std::string varName = node->m_left->m_value;
     if(GLOBAL_SCOPE.find(varName) == GLOBAL_SCOPE.end()) {
-        throw "Variable is not defined";
-        return BasicType();
+        return error("Variable is not defined");
     }
     GLOBAL_SCOPE[varName] = visit(node->m_right);;
     return BasicType();
@@ -109,10 +114,9 @@ BasicType Interpreter::visit_Variable(const ASTPtr &astNode) {
     GET_NODE(Var, astNode);
     auto varName = node->m_value;
     if(GLOBAL_SCOPE.find(varName) == GLOBAL_SCOPE.end()){
-        throw "Error name";
+        return error("Error name");
     }
     return node->m_value;
-    return BasicType();
 }
 
 BasicType Interpreter::visit_VarDecl(const ASTPtr &astNode) {
@@ -121,14 +125,12 @@ BasicType Interpreter::visit_VarDecl(const ASTPtr &astNode) {
     VarPtr varNode = std::dynamic_pointer_cast<Var>(node->m_var_node);
     TypePtr typeNode = std::dynamic_pointer_cast<Type>(node->m_type_node);
     if(!varNode || !typeNode) {
-        throw "Invaild variable declation";
-        return BasicType();
+        return error("Invaild variable declation");
     }
     // check if the variable exists
     auto variableName = varNode->m_value;
     if(GLOBAL_SCOPE.find(variableName) != GLOBAL_SCOPE.end()) {
-        throw "Variable exist";
-        return BasicType();
+        return error("Variable exist");
     }
 
     GLOBAL_SCOPE[variableName] = BasicType();
@@ -165,7 +167,7 @@ BasicType Interpreter::visit_Print(const ASTPtr &astNode) {
         if(it != GLOBAL_SCOPE.end()) {
             std::cout << it->second;
         } else {
-            throw "could not found variable";
+            error("could not found variable");
         }
     } else {
         std::cout << visit(node->m_value);
@@ -179,7 +181,7 @@ BasicType Interpreter::visit_IfCondition(const ASTPtr &astNode) {
     if(condition != 0) {
         return visit(node->m_block);
     }
-    return BasicType();
+    return error();
 }
 
 BasicType Interpreter::visit_DoLoop(const ASTPtr &astNode) {
@@ -223,12 +225,12 @@ BasicType Interpreter::visit_ToInt(const ASTPtr &astNode){
 }
 
 
-BasicType Interpreter::getVariableValue(const std::string& varName) const {
+BasicType Interpreter::getVariableValue(const std::string& varName) {
     const auto it = GLOBAL_SCOPE.find(varName);
     if(it != GLOBAL_SCOPE.end()) {
         return it->second;
     }
-    throw "Variable does not exist ";
+    return error( "Variable does not exist ");
 }
 
 BasicType Interpreter::interpret() {

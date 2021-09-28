@@ -20,6 +20,7 @@ private:
         const               std::string m_text;
     unsigned            m_pos;
     char                m_currentChar;
+    unsigned            m_currentLine;
     std::map<std::string, TokenPtr> RESERVED_KEYWORDS = {
         {"var", std::make_shared<Token> (TokenType::VAR, "var")},
         {"int", std::make_shared<Token> (TokenType::INTEGER_TYPE, "int")},

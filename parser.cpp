@@ -17,6 +17,7 @@
 #include "Ast/doloop.h"
 #include "Ast/tostring.h"
 #include "Ast/toint.h"
+#include "Exception/parserexception.h"
 #include <memory>
 
 Parser::Parser(const LexerPtr lexer):
@@ -31,6 +32,7 @@ Parser::Parser(const LexerPtr lexer):
 void Parser::eat(TokenType tokenType) {
     if(m_currentToken->m_type == tokenType)
     {
+        m_LastToken = m_currentToken;
         m_currentToken = m_lexer->getNextToken();
     }
     else
@@ -119,8 +121,9 @@ ASTPtr Parser::expr()
     return result;
 }
 
-void Parser::error() {
-    throw "Error";
+ASTPtr Parser::error() {
+    throw ParserException("Error at line " + std::to_string(m_LastToken->m_line) + " character " + m_LastToken->m_value.getString());
+    return nullptr;
 }
 
 
@@ -135,7 +138,7 @@ ASTPtr Parser::parse() {
 
 ASTPtr Parser::empty()
 {
-    return std::make_shared<NoOp>();
+    return std::make_shared<NoOp>(m_LastToken);
 }
 
 VarPtr Parser::variable()
@@ -204,9 +207,9 @@ ASTPtr Parser::if_statement(){
         ASTPtr condition = expr();
         eat(TokenType::END_OF_LINE);
         ASTPtr ifBlock = block();
-        return std::make_shared<IfCondition>(condition, ifBlock);
+        return std::make_shared<IfCondition>(condition, ifBlock, m_LastToken);
     }
-    return nullptr;
+    return error();
 }
 
 ASTPtr Parser::do_statement()
@@ -217,9 +220,9 @@ ASTPtr Parser::do_statement()
         ASTPtr condition = expr();
         eat(TokenType::END_OF_LINE);
         ASTPtr doBlock = block();
-        return std::make_shared<DoLoop>(condition, doBlock);
+        return std::make_shared<DoLoop>(condition, doBlock, m_LastToken);
     }
-    return nullptr;
+    return error();
 }
 
 //static bool existFromBlock = false;
@@ -227,7 +230,7 @@ ASTPtr Parser::do_statement()
 ASTPtr Parser::block()
 {
     std::vector<ASTPtr> nodes;
-    BlockPtr root = std::make_shared<Block>();
+    BlockPtr root = std::make_shared<Block>(m_currentToken);
     int tabLevel = getTabLevel();
     nodes.push_back(statement());
     while (m_currentToken->m_type == TokenType::END_OF_LINE || m_exitFromBlock) {
@@ -237,8 +240,7 @@ ASTPtr Parser::block()
         tabLevel = getTabLevel();
         if(tabLevel > m_currentTabLevel)
         {
-            throw "Incorrect syntax";
-            break;
+            return error();
         } else if (tabLevel < m_currentTabLevel) {
             m_exitFromBlock = true;
             m_currentTabLevel --;
@@ -287,7 +289,7 @@ ASTPtr Parser::variable_declaration() {
             eat(TokenType::ASSIGN);
             initialization = expr();
         }
-        return std::make_shared<VarDecl>(var_node, type_node, initialization);
+        return std::make_shared<VarDecl>(var_node, type_node, initialization, m_LastToken);
     }
     return nullptr;
 }
@@ -295,9 +297,9 @@ ASTPtr Parser::variable_declaration() {
 ASTPtr Parser::print_statement() {
     if(m_currentToken->m_type == TokenType::PRINT) {
         eat(TokenType::PRINT);
-        return std::make_shared<Print>(expr());
+        return std::make_shared<Print>(expr(), m_LastToken);
     }
-    return nullptr;
+    return error();
 }
 
 ASTPtr Parser::to_int()
@@ -321,7 +323,7 @@ ASTPtr Parser::to_int()
             return std::make_shared<ToInt>(token);
         }
     }
-    return nullptr;
+    return error();
 }
 ASTPtr Parser::to_string()
 {
@@ -344,7 +346,7 @@ ASTPtr Parser::to_string()
             return std::make_shared<ToString>(token);
         }
     }
-    return nullptr;
+    return error();
 }
 
 int Parser::getTabLevel(){
