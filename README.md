@@ -78,11 +78,12 @@ Variable name must start with a letter
 + then update `Lexer::getNextToken()` to handle for new token type.
 
 + Update the parser.cpp to parser for the new `statement`
-        ASTPtr              do_statement();
-        ASTPtr              to_int();
-        ASTPtr              to_string();
-        ...
-        ASTPtr              new_statement();
+
+		ASTPtr              do_statement();
+		ASTPtr              to_int();
+		ASTPtr              to_string();
+		...
+		ASTPtr              new_statement();
 
 + Add a new AST (Abstract Syntax Tree) node for new `statement` in /Ast directory.
 + Update the the interpreter to handle the logic for new `statement`:
