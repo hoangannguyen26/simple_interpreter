@@ -10,10 +10,10 @@
 class Token
 {
 public:
-    explicit Token(const TokenType& type, const Variant& m_value, const unsigned line = 0);
+    explicit Token(const TokenType &type, const Variant &m_value, const unsigned line = 0);
     const TokenType m_type;
     const Variant m_value;
-    unsigned  m_line;
+    unsigned m_line;
     void setLine(const unsigned line);
 };
 

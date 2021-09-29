@@ -1,8 +1,9 @@
 #include "nodevisitor.h"
 
-
-Variant NodeVisitor::visit(const ASTPtr& node){
-    switch (node->m_type) {
+Variant NodeVisitor::visit(const ASTPtr &node)
+{
+    switch (node->m_type)
+    {
     case AST::NodeType::Literal:
         return visit_Literal(node);
     case AST::NodeType::BinOp:

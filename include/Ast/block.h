@@ -4,12 +4,11 @@
 #include "ast.h"
 #include <vector>
 
-
 class Block : public AST
 {
 public:
-    Block(const TokenPtr& token);
-    std::vector<ASTPtr>         children;
+    Block(const TokenPtr &token);
+    std::vector<ASTPtr> children;
 };
 
 CREATE_SHARED_PTR(Block);

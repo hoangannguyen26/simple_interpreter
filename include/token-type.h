@@ -3,8 +3,8 @@
 
 #endif // TOKENTYPE_H
 
-
-enum class TokenType {
+enum class TokenType
+{
     INTEGER,
     INTEGER_TYPE,
     STRING,
@@ -16,9 +16,9 @@ enum class TokenType {
     LPAREN,
     RPAREN,
     ID,
-    VAR, // var
+    VAR,    // var
     ASSIGN, // =
-    PRINT, // print
+    PRINT,  // print
     IF,
     DO,
     TAB,

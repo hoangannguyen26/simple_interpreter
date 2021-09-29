@@ -5,25 +5,27 @@
 #include <typeinfo>
 #include <iostream>
 
-
 class Variant
 {
 public:
     Variant() = default;
-    Variant(int val): m_type(Type::Int), intVal(val), strVal("") {};
-    Variant(const std::string& val):m_type(Type::String), intVal(0), strVal(val) {};
-    Variant(const char val[100]):m_type(Type::String), intVal(0), strVal(val) {};
+    Variant(int val) : m_type(Type::Int), intVal(val), strVal(""){};
+    Variant(const std::string &val) : m_type(Type::String), intVal(0), strVal(val){};
+    Variant(const char val[100]) : m_type(Type::String), intVal(0), strVal(val){};
 
-    int getInt() const {
-        if(m_type == Type::Int) {
+    int getInt() const
+    {
+        if (m_type == Type::Int)
+        {
             return intVal;
         }
         throw std::bad_typeid();
         return 0;
     }
 
-    std::string toString() const {
-        if(m_type == Type::String)
+    std::string toString() const
+    {
+        if (m_type == Type::String)
         {
             return this->strVal;
         }
@@ -33,8 +35,9 @@ public:
         }
     }
 
-    Variant toInt() const {
-        if(m_type == Type::Int)
+    Variant toInt() const
+    {
+        if (m_type == Type::Int)
         {
             return *this;
         }
@@ -44,16 +47,20 @@ public:
         }
     }
 
-    Variant& operator=(int i) {
-        if(m_type != Type::Int) {
+    Variant &operator=(int i)
+    {
+        if (m_type != Type::Int)
+        {
             throw std::bad_typeid();
         }
         intVal = i;
         return *this;
     }
 
-    Variant& operator=(const std::string& s) {
-        if(m_type != Type::String) {
+    Variant &operator=(const std::string &s)
+    {
+        if (m_type != Type::String)
+        {
             throw std::bad_typeid();
         }
         intVal = 0;
@@ -61,8 +68,9 @@ public:
         return *this;
     }
 
-    Variant operator+(const Variant& other) {
-        if(this->m_type != other.m_type)
+    Variant operator+(const Variant &other)
+    {
+        if (this->m_type != other.m_type)
         {
             throw std::bad_typeid();
         }
@@ -73,12 +81,13 @@ public:
         return ret;
     }
 
-    bool operator>(const Variant& other) {
-        if(this->m_type != other.m_type)
+    bool operator>(const Variant &other)
+    {
+        if (this->m_type != other.m_type)
         {
             throw std::bad_typeid();
         }
-        if(this->m_type == Type::Int)
+        if (this->m_type == Type::Int)
         {
             return this->intVal > other.intVal;
         }
@@ -88,12 +97,13 @@ public:
         }
     }
 
-    bool operator<(const Variant& other) {
-        if(this->m_type != other.m_type)
+    bool operator<(const Variant &other)
+    {
+        if (this->m_type != other.m_type)
         {
             throw std::bad_typeid();
         }
-        if(this->m_type == Type::Int)
+        if (this->m_type == Type::Int)
         {
             return this->intVal < other.intVal;
         }
@@ -103,12 +113,13 @@ public:
         }
     }
 
-    bool operator==(const Variant& other) {
-        if(this->m_type != other.m_type)
+    bool operator==(const Variant &other)
+    {
+        if (this->m_type != other.m_type)
         {
             throw std::bad_typeid();
         }
-        if(this->m_type == Type::Int)
+        if (this->m_type == Type::Int)
         {
             return this->intVal == other.intVal;
         }
@@ -118,12 +129,14 @@ public:
         }
     }
 
-    bool operator!=(const Variant& other) {
+    bool operator!=(const Variant &other)
+    {
         return !(*this == other);
     }
 
-    Variant operator-(const Variant& other) {
-        if(this->m_type != Type::Int || this->m_type != other.m_type)
+    Variant operator-(const Variant &other)
+    {
+        if (this->m_type != Type::Int || this->m_type != other.m_type)
         {
             throw std::bad_typeid();
         }
@@ -133,8 +146,9 @@ public:
         return ret;
     }
 
-    Variant operator*(const Variant& other) {
-        if(this->m_type != Type::Int || this->m_type != other.m_type)
+    Variant operator*(const Variant &other)
+    {
+        if (this->m_type != Type::Int || this->m_type != other.m_type)
         {
             throw std::bad_typeid();
         }
@@ -144,9 +158,9 @@ public:
         return ret;
     }
 
-
-    Variant operator/(const Variant& other) {
-        if(this->m_type != Type::Int || this->m_type != other.m_type)
+    Variant operator/(const Variant &other)
+    {
+        if (this->m_type != Type::Int || this->m_type != other.m_type)
         {
             throw std::bad_typeid();
         }
@@ -157,33 +171,38 @@ public:
         return ret;
     }
 
-    Variant operator-(){
+    Variant operator-()
+    {
         this->intVal = -this->intVal;
         return *this;
     }
 
-    friend std::ostream& operator<<(std::ostream& os, const Variant& obj)
+    friend std::ostream &operator<<(std::ostream &os, const Variant &obj)
     {
-        if(obj.m_type == Type::Int)
+        if (obj.m_type == Type::Int)
         {
             os << obj.intVal;
-        } else if (obj.m_type == Type::String)
+        }
+        else if (obj.m_type == Type::String)
         {
             os << obj.strVal;
         }
         return os;
     }
 
-    bool isString() const {
+    bool isString() const
+    {
         return m_type == Type::String;
     }
 
-    bool isInteger() const {
+    bool isInteger() const
+    {
         return m_type == Type::Int;
     }
 
 private:
-    enum class Type {
+    enum class Type
+    {
         Void,
         Int,
         String

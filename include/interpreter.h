@@ -6,18 +6,18 @@
 
 #include <map>
 
-
 class Interpreter : public NodeVisitor
 {
 public:
-    explicit                            Interpreter(const ParserPtr& parser);
-    Variant                           interpret();
+    explicit Interpreter(const ParserPtr &parser);
+    Variant interpret();
+
 private:
-    ParserPtr                           m_parser;
-    std::map<std::string, std::pair<TokenType, Variant>>    m_globalScope;
-    Variant                           getVariableValue(const std::string& variableName) const;
-    Variant                           error(const std::string& message = "") const;
-    TokenPtr                            m_currentToken;
+    ParserPtr m_parser;
+    std::map<std::string, std::pair<TokenType, Variant>> m_globalScope;
+    Variant getVariableValue(const std::string &variableName) const;
+    Variant error(const std::string &message = "") const;
+    TokenPtr m_currentToken;
 
     OVERRIDE_VISITOR(BinOp);
     OVERRIDE_VISITOR(Literal);

@@ -9,7 +9,8 @@
 class AST
 {
 public:
-    enum class NodeType {
+    enum class NodeType
+    {
         Literal,
         BinOp,
         UnaryOp,
@@ -25,10 +26,10 @@ public:
         ToString,
         ToInt
     };
+
 public:
-    explicit AST(const NodeType type, const TokenPtr& token) :
-        m_type(type),
-        m_token(token)
+    explicit AST(const NodeType type, const TokenPtr &token) : m_type(type),
+                                                               m_token(token)
     {
     }
     virtual ~AST() {}

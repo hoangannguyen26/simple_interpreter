@@ -6,9 +6,9 @@
 class ToInt : public AST
 {
 public:
-    ToInt(const TokenPtr& data);
+    ToInt(const TokenPtr &data);
 
-    const TokenPtr        m_data;
+    const TokenPtr m_data;
 };
 
 CREATE_SHARED_PTR(ToInt);

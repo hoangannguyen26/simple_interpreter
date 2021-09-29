@@ -7,8 +7,8 @@ class Var : public AST
 {
 public:
     Var();
-    explicit Var(const TokenPtr& token);
-    const std::string         m_value;  // variable name
+    explicit Var(const TokenPtr &token);
+    const std::string m_value; // variable name
 };
 
 CREATE_SHARED_PTR(Var);

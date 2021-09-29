@@ -6,11 +6,12 @@
 
 class NodeVisitor
 {
-    #define CREATE_VISITOR(visitor) virtual Variant visit_##visitor(const ASTPtr& node) = 0
-    #define OVERRIDE_VISITOR(visitor) Variant visit_##visitor(const ASTPtr& node) override
+#define CREATE_VISITOR(visitor) virtual Variant visit_##visitor(const ASTPtr &node) = 0
+#define OVERRIDE_VISITOR(visitor) Variant visit_##visitor(const ASTPtr &node) override
 public:
     NodeVisitor() = default;
-    Variant visit(const ASTPtr& node);
+    Variant visit(const ASTPtr &node);
+
 protected:
     CREATE_VISITOR(BinOp);
     CREATE_VISITOR(Literal);
@@ -25,8 +26,6 @@ protected:
     CREATE_VISITOR(DoLoop);
     CREATE_VISITOR(ToString);
     CREATE_VISITOR(ToInt);
-
 };
-
 
 #endif // NODEVISITOR_H

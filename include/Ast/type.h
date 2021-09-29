@@ -6,8 +6,8 @@
 class Type : public AST
 {
 public:
-    explicit Type(const TokenPtr& token);
-    const std::string     m_value;
+    explicit Type(const TokenPtr &token);
+    const std::string m_value;
 };
 
 CREATE_SHARED_PTR(Type);

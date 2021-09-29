@@ -6,29 +6,35 @@
 #include <iostream>
 #include <fstream>
 
-int main(const int argc, const char** argv)
+int main(const int argc, const char **argv)
 {
     std::string sourceName = "source.test";
-    if(argc >= 2) {
+    if (argc >= 2)
+    {
         sourceName = argv[1];
-    } else {
+    }
+    else
+    {
         std::cout << "Source is not specified." << std::endl;
-        std::cout << "Usage: " <<  argv[0] << " path_to_source_file" << std::endl;
+        std::cout << "Usage: " << argv[0] << " path_to_source_file" << std::endl;
         exit(1);
     }
 
     // read source file
     std::ifstream file(sourceName);
     std::string source;
-    if(file.is_open())
+    if (file.is_open())
     {
         std::string line;
-        while (getline(file, line)) {
+        while (getline(file, line))
+        {
             source += line + '\n';
         }
         file.close();
-    } else {
-        std::cout<<"Error: could not open file `" + sourceName +"`" << std::endl;
+    }
+    else
+    {
+        std::cout << "Error: could not open file `" + sourceName + "`" << std::endl;
         exit(1);
     }
     // remove last \n
@@ -38,10 +44,14 @@ int main(const int argc, const char** argv)
     const ParserPtr parser = std::make_shared<Parser>(lexer);
     const InterpreterPtr interpreter = std::make_shared<Interpreter>(parser);
 
-    try {
+    try
+    {
         interpreter->interpret();
-    } catch (const MyException& e) {
-        std::cout << std::endl << e.what() << std::endl;
+    }
+    catch (const MyException &e)
+    {
+        std::cout << std::endl
+                  << e.what() << std::endl;
     }
     std::cout << std::endl;
     return 0;
