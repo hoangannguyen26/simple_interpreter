@@ -1,4 +1,4 @@
-#include "type.h"
+#include "Ast/type.h"
 
 Type::Type(const TokenPtr& token):
     AST(NodeType::Type, token),

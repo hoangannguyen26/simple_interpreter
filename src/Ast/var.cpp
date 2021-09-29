@@ -1,4 +1,4 @@
-#include "var.h"
+#include "Ast/var.h"
 
 Var::Var(const TokenPtr& token):
     AST(NodeType::Var, token),

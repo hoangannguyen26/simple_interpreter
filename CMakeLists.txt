@@ -5,36 +5,41 @@ project(SimpleInterpreter LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(SimpleInterpreter
-    ${CMAKE_SOURCE_DIR}/Ast/ast.cpp
-    ${CMAKE_SOURCE_DIR}/Ast/binop.cpp
-    ${CMAKE_SOURCE_DIR}/Ast/literal.cpp
-    ${CMAKE_SOURCE_DIR}/Ast/unaryop.cpp
-    ${CMAKE_SOURCE_DIR}/Ast/noop.cpp
-    ${CMAKE_SOURCE_DIR}/Ast/var.cpp
-    ${CMAKE_SOURCE_DIR}/Ast/assign.cpp
-    ${CMAKE_SOURCE_DIR}/Ast/block.cpp
-    ${CMAKE_SOURCE_DIR}/Ast/vardecl.cpp
-    ${CMAKE_SOURCE_DIR}/Ast/type.cpp
-    ${CMAKE_SOURCE_DIR}/Ast/print.cpp
-    ${CMAKE_SOURCE_DIR}/Ast/ifcondition.cpp
-    ${CMAKE_SOURCE_DIR}/Ast/doloop.cpp
-    ${CMAKE_SOURCE_DIR}/Ast/tostring.cpp
-    ${CMAKE_SOURCE_DIR}/Ast/toint.cpp
-    ${CMAKE_SOURCE_DIR}/basictype.cpp
-    ${CMAKE_SOURCE_DIR}/nodevisitor.cpp
-    ${CMAKE_SOURCE_DIR}/interpreter.cpp
-    ${CMAKE_SOURCE_DIR}/parser.cpp
-    ${CMAKE_SOURCE_DIR}/lexer.cpp
-    ${CMAKE_SOURCE_DIR}/token.cpp
-    ${CMAKE_SOURCE_DIR}/main.cpp
-    ${CMAKE_SOURCE_DIR}/Exception/myexception.cpp
-    ${CMAKE_SOURCE_DIR}/Exception/parserexception.cpp
-    ${CMAKE_SOURCE_DIR}/Exception/lexerexception.cpp
-    ${CMAKE_SOURCE_DIR}/Exception/interpreterexception.cpp
-    )
+set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
+set(INCLUDE_DIRECTORIES ${CMAKE_SOURCE_DIR}/include)
+include_directories(${INCLUDE_DIRECTORIES})
+
 message(STATUS "Working dir${CMAKE_CURRENT_BINARY_DIR}")
 message(STATUS "Working dir${CMAKE_SOURCE_DIR}")
+
+add_executable(SimpleInterpreter
+    ${SOURCE_DIR}/Ast/ast.cpp
+    ${SOURCE_DIR}/Ast/binop.cpp
+    ${SOURCE_DIR}/Ast/literal.cpp
+    ${SOURCE_DIR}/Ast/unaryop.cpp
+    ${SOURCE_DIR}/Ast/noop.cpp
+    ${SOURCE_DIR}/Ast/var.cpp
+    ${SOURCE_DIR}/Ast/assign.cpp
+    ${SOURCE_DIR}/Ast/block.cpp
+    ${SOURCE_DIR}/Ast/vardecl.cpp
+    ${SOURCE_DIR}/Ast/type.cpp
+    ${SOURCE_DIR}/Ast/print.cpp
+    ${SOURCE_DIR}/Ast/ifcondition.cpp
+    ${SOURCE_DIR}/Ast/doloop.cpp
+    ${SOURCE_DIR}/Ast/tostring.cpp
+    ${SOURCE_DIR}/Ast/toint.cpp
+    ${SOURCE_DIR}/basictype.cpp
+    ${SOURCE_DIR}/nodevisitor.cpp
+    ${SOURCE_DIR}/interpreter.cpp
+    ${SOURCE_DIR}/parser.cpp
+    ${SOURCE_DIR}/lexer.cpp
+    ${SOURCE_DIR}/token.cpp
+    ${SOURCE_DIR}/main.cpp
+    ${SOURCE_DIR}/Exception/myexception.cpp
+    ${SOURCE_DIR}/Exception/parserexception.cpp
+    ${SOURCE_DIR}/Exception/lexerexception.cpp
+    ${SOURCE_DIR}/Exception/interpreterexception.cpp
+    )
 ADD_CUSTOM_COMMAND(TARGET SimpleInterpreter
           POST_BUILD
           COMMENT "copying test data ${CMAKE_SOURCE_DIR}/testData/source.test"

@@ -1,4 +1,4 @@
-#include "literal.h"
+#include "Ast/literal.h"
 #include <cctype>
 
 Literal::Literal(const TokenPtr& token):

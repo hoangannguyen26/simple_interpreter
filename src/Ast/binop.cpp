@@ -1,4 +1,4 @@
-#include "binop.h"
+#include "Ast/binop.h"
 
 BinOp::BinOp(const ASTPtr& left, const TokenPtr& op, const ASTPtr& right):
     AST(NodeType::BinOp, op),

@@ -1,4 +1,4 @@
-#include "vardecl.h"
+#include "Ast/vardecl.h"
 
 VarDecl::VarDecl(const ASTPtr& var, const ASTPtr& type, const ASTPtr& value, const TokenPtr& token):
     AST(NodeType::VarDecl, token),
