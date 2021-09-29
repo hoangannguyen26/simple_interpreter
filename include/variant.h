@@ -8,12 +8,6 @@
 
 class Variant
 {
-    enum class Type {
-        Void,
-        Int,
-        String
-    };
-
 public:
     Variant() = default;
     Variant(int val): m_type(Type::Int), intVal(val), strVal("") {};
@@ -189,10 +183,14 @@ public:
     }
 
 private:
+    enum class Type {
+        Void,
+        Int,
+        String
+    };
     int intVal = 0;
     std::string strVal = "";
     Type m_type = Type::Void;
-
 };
 
 #endif // VARIANT_H

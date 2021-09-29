@@ -24,7 +24,10 @@ More information about `A`bstract `S`yntax `T`ree, please refer here: https://ru
 - `var int test01`
 - `var string test02`
 
-Variable name must start with a letter
+- Variable name must start with a letter
+- Each variable will be assign to a default value after it is declarated
+	- `0` for int type
+	- `empty` for string type
 
 ### 2. Variable initialization:
 - `test01 = 10` or `test01 = 10 + 2 * 2 - (4 -2)`
