@@ -234,6 +234,9 @@ ASTPtr Parser::block()
     std::vector<ASTPtr> nodes;
     BlockPtr root = std::make_shared<Block>(m_currentToken);
     int tabLevel = getTabLevel();
+    if(tabLevel != m_currentTabLevel) {
+        return error();
+    }
     nodes.push_back(statement());
     while (m_currentToken->m_type == TokenType::END_OF_LINE || m_exitFromBlock) {
         if(!m_exitFromBlock) {
