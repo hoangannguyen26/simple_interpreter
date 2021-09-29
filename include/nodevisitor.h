@@ -2,7 +2,7 @@
 #define NODEVISITOR_H
 
 #include "Ast/ast.h"
-#include "variant.h"
+#include "DataType/variant.h"
 
 class NodeVisitor
 {

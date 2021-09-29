@@ -26,7 +26,7 @@ add_executable(SimpleInterpreter
     ${SOURCE_DIR}/Ast/doloop.cpp
     ${SOURCE_DIR}/Ast/tostring.cpp
     ${SOURCE_DIR}/Ast/toint.cpp
-    ${SOURCE_DIR}/variant.cpp
+    ${SOURCE_DIR}/DataType/variant.cpp
     ${SOURCE_DIR}/nodevisitor.cpp
     ${SOURCE_DIR}/interpreter.cpp
     ${SOURCE_DIR}/parser.cpp

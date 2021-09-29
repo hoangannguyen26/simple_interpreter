@@ -2,7 +2,7 @@
 #define TOKEN_H
 
 #include "token-type.h"
-#include "variant.h"
+#include "DataType/variant.h"
 
 #include <string>
 #include <memory>
