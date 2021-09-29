@@ -1,7 +1,7 @@
 #ifndef AST_H
 #define AST_H
 
-#include "basictype.h"
+#include "variant.h"
 #include "token.h"
 
 #define CREATE_SHARED_PTR(name) using name##Ptr = std::shared_ptr<name>

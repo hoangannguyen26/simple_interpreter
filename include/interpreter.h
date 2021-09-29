@@ -11,12 +11,12 @@ class Interpreter : public NodeVisitor
 {
 public:
     explicit                            Interpreter(const ParserPtr& parser);
-    BasicType                           interpret();
+    Variant                           interpret();
 private:
     ParserPtr                           m_parser;
-    std::map<std::string, std::pair<TokenType, BasicType>>    m_globalScope;
-    BasicType                           getVariableValue(const std::string& variableName) const;
-    BasicType                           error(const std::string& message = "") const;
+    std::map<std::string, std::pair<TokenType, Variant>>    m_globalScope;
+    Variant                           getVariableValue(const std::string& variableName) const;
+    Variant                           error(const std::string& message = "") const;
     TokenPtr                            m_currentToken;
 
     OVERRIDE_VISITOR(BinOp);

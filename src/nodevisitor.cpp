@@ -1,7 +1,7 @@
 #include "nodevisitor.h"
 
 
-BasicType NodeVisitor::visit(const ASTPtr& node){
+Variant NodeVisitor::visit(const ASTPtr& node){
     switch (node->m_type) {
     case AST::NodeType::Literal:
         return visit_Literal(node);
@@ -30,6 +30,6 @@ BasicType NodeVisitor::visit(const ASTPtr& node){
     case AST::NodeType::ToInt:
         return visit_ToInt(node);
     default:
-        return BasicType(0);
+        return Variant(0);
     }
 }

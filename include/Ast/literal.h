@@ -10,7 +10,7 @@ public:
     explicit Literal(const TokenPtr& token);
     Literal(const Literal&);
 public:
-    const BasicType           m_value;
+    const Variant           m_value;
 };
 
 CREATE_SHARED_PTR(Literal);

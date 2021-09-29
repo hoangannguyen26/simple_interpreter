@@ -2,7 +2,7 @@
 #define TOKEN_H
 
 #include "token-type.h"
-#include "basictype.h"
+#include "variant.h"
 
 #include <string>
 #include <memory>
@@ -10,9 +10,9 @@
 class Token
 {
 public:
-    explicit Token(const TokenType& type, const BasicType& m_value, const unsigned line = 0);
+    explicit Token(const TokenType& type, const Variant& m_value, const unsigned line = 0);
     const TokenType m_type;
-    const BasicType m_value;
+    const Variant m_value;
     unsigned  m_line;
     void setLine(const unsigned line);
 };

@@ -2,15 +2,15 @@
 #define NODEVISITOR_H
 
 #include "Ast/ast.h"
-#include "basictype.h"
+#include "variant.h"
 
 class NodeVisitor
 {
-    #define CREATE_VISITOR(visitor) virtual BasicType visit_##visitor(const ASTPtr& node) = 0
-    #define OVERRIDE_VISITOR(visitor) BasicType visit_##visitor(const ASTPtr& node) override
+    #define CREATE_VISITOR(visitor) virtual Variant visit_##visitor(const ASTPtr& node) = 0
+    #define OVERRIDE_VISITOR(visitor) Variant visit_##visitor(const ASTPtr& node) override
 public:
     NodeVisitor() = default;
-    BasicType visit(const ASTPtr& node);
+    Variant visit(const ASTPtr& node);
 protected:
     CREATE_VISITOR(BinOp);
     CREATE_VISITOR(Literal);

@@ -32,17 +32,17 @@ Interpreter::Interpreter(const ParserPtr& parser):
 {
 }
 
-BasicType Interpreter::error(const std::string& message) const {
+Variant Interpreter::error(const std::string& message) const {
     throw MyException("Error: " + message + " at line: " + std::to_string(m_currentToken->m_line));
 }
 
-BasicType Interpreter::visit_Literal(const ASTPtr &astNode)
+Variant Interpreter::visit_Literal(const ASTPtr &astNode)
 {
     GET_NODE(Literal, astNode);
-    return BasicType(node->m_value);
+    return Variant(node->m_value);
 }
 
-BasicType Interpreter::visit_BinOp(const ASTPtr &astNode) {
+Variant Interpreter::visit_BinOp(const ASTPtr &astNode) {
     GET_NODE(BinOp, astNode);
     auto left = visit(node->m_left);
     auto right = visit(node->m_right);
@@ -84,7 +84,7 @@ BasicType Interpreter::visit_BinOp(const ASTPtr &astNode) {
     return error();
 }
 
-BasicType Interpreter::visit_UnaryOp(const ASTPtr &astNode){
+Variant Interpreter::visit_UnaryOp(const ASTPtr &astNode){
     GET_NODE(UnaryOp, astNode);
     if(node->m_op->m_type == TokenType::PLUS)
     {
@@ -97,7 +97,7 @@ BasicType Interpreter::visit_UnaryOp(const ASTPtr &astNode){
     return error();
 }
 
-BasicType Interpreter::visit_Assign(const ASTPtr &astNode) {
+Variant Interpreter::visit_Assign(const ASTPtr &astNode) {
     GET_NODE(Assign, astNode);
     VarPtr var = std::dynamic_pointer_cast<Var>(node->m_left);
     if(var) {
@@ -115,18 +115,18 @@ BasicType Interpreter::visit_Assign(const ASTPtr &astNode) {
         }
         it->second.second = visit(node->m_right);
     }
-    return BasicType();
+    return Variant();
 }
 
-BasicType Interpreter::visit_Block(const ASTPtr &astNode) {
+Variant Interpreter::visit_Block(const ASTPtr &astNode) {
     GET_NODE(Block, astNode);
     for(const auto child : node->children) {
         visit(child);
     }
-    return BasicType();
+    return Variant();
 }
 
-BasicType Interpreter::visit_Variable(const ASTPtr &astNode) {
+Variant Interpreter::visit_Variable(const ASTPtr &astNode) {
     GET_NODE(Var, astNode);
     auto varName = node->m_value;
     if(m_globalScope.find(varName) == m_globalScope.end()){
@@ -135,7 +135,7 @@ BasicType Interpreter::visit_Variable(const ASTPtr &astNode) {
     return node->m_value;
 }
 
-BasicType Interpreter::visit_VarDecl(const ASTPtr &astNode) {
+Variant Interpreter::visit_VarDecl(const ASTPtr &astNode) {
     GET_NODE(VarDecl, astNode);
 
     VarPtr varNode = std::dynamic_pointer_cast<Var>(node->m_var_node);
@@ -149,31 +149,31 @@ BasicType Interpreter::visit_VarDecl(const ASTPtr &astNode) {
         return error("Variable `" +variableName +"` already exists.");
     }
 
-    m_globalScope[variableName] = {typeNode->m_token->m_type, BasicType()};
+    m_globalScope[variableName] = {typeNode->m_token->m_type, Variant()};
 
     if(node->m_initialization_value) {
         visit(node->m_initialization_value);
     } else {
 
         if(typeNode->m_token->m_type == TokenType::STRING_TYPE) {
-            m_globalScope[variableName] = {typeNode->m_token->m_type, BasicType("")};
+            m_globalScope[variableName] = {typeNode->m_token->m_type, Variant("")};
         }
 
         if(typeNode->m_token->m_type == TokenType::INTEGER_TYPE) {
-            m_globalScope[variableName] = {typeNode->m_token->m_type, BasicType(0)};
+            m_globalScope[variableName] = {typeNode->m_token->m_type, Variant(0)};
         }
     }
 
-    return BasicType();
+    return Variant();
 }
 
-BasicType Interpreter::visit_Type(const ASTPtr &astNode) {
+Variant Interpreter::visit_Type(const ASTPtr &astNode) {
     GET_NODE(Type, astNode);
     // Do nothing
-    return BasicType();
+    return Variant();
 };
 
-BasicType Interpreter::visit_Print(const ASTPtr &astNode) {
+Variant Interpreter::visit_Print(const ASTPtr &astNode) {
     GET_NODE(Print, astNode);
     VarPtr variable = std::dynamic_pointer_cast<Var>(node->m_value);
     if(variable) {
@@ -188,10 +188,10 @@ BasicType Interpreter::visit_Print(const ASTPtr &astNode) {
     } else {
         std::cout << visit(node->m_value);
     }
-    return BasicType();
+    return Variant();
 }
 
-BasicType Interpreter::visit_IfCondition(const ASTPtr &astNode) {
+Variant Interpreter::visit_IfCondition(const ASTPtr &astNode) {
     GET_NODE(IfCondition, astNode);
     auto condition = visit(node->m_condition);
     if(condition != 0) {
@@ -200,7 +200,7 @@ BasicType Interpreter::visit_IfCondition(const ASTPtr &astNode) {
     return error();
 }
 
-BasicType Interpreter::visit_DoLoop(const ASTPtr &astNode) {
+Variant Interpreter::visit_DoLoop(const ASTPtr &astNode) {
     GET_NODE(DoLoop, astNode);
     int loop = 0;
     if(node->m_condition->m_type == AST::NodeType::Var) {
@@ -219,10 +219,10 @@ BasicType Interpreter::visit_DoLoop(const ASTPtr &astNode) {
     for(int i = 0; i < loop; i ++) {
         visit(node->m_block);
     }
-    return BasicType();
+    return Variant();
 }
 
-BasicType Interpreter::visit_ToString(const ASTPtr &astNode){
+Variant Interpreter::visit_ToString(const ASTPtr &astNode){
     GET_NODE(ToString, astNode);
     if(node->m_data->m_type == TokenType::ID) {
         auto variable = getVariableValue(node->m_data->m_value.toString());
@@ -231,7 +231,7 @@ BasicType Interpreter::visit_ToString(const ASTPtr &astNode){
     return node->m_data->m_value.toString();
 }
 
-BasicType Interpreter::visit_ToInt(const ASTPtr &astNode){
+Variant Interpreter::visit_ToInt(const ASTPtr &astNode){
     GET_NODE(ToInt, astNode);
     if(node->m_data->m_type == TokenType::ID) {
         auto variable = getVariableValue(node->m_data->m_value.toString());
@@ -241,7 +241,7 @@ BasicType Interpreter::visit_ToInt(const ASTPtr &astNode){
 }
 
 
-BasicType Interpreter::getVariableValue(const std::string& varName) const {
+Variant Interpreter::getVariableValue(const std::string& varName) const {
     const auto it = m_globalScope.find(varName);
     if(it != m_globalScope.end()) {
         return it->second.second;
@@ -249,8 +249,8 @@ BasicType Interpreter::getVariableValue(const std::string& varName) const {
     return error( "Variable `"+varName+"` does not exist ");
 }
 
-BasicType Interpreter::interpret() {
+Variant Interpreter::interpret() {
     ASTPtr tree = m_parser->parse();
-    BasicType result = visit(tree);
+    Variant result = visit(tree);
     return result;
 }

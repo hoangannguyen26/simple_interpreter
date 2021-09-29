@@ -1,27 +1,27 @@
-#ifndef BASICTYPE_H
-#define BASICTYPE_H
+#ifndef VARIANT_H
+#define VARIANT_H
 
 #include <string>
 #include <typeinfo>
 #include <iostream>
 
 
-class BasicType
+class Variant
 {
-    enum class SupportType {
+    enum class Type {
         Void,
         Int,
         String
     };
 
 public:
-    BasicType() = default;
-    BasicType(int val): m_type(SupportType::Int), intVal(val), strVal("") {};
-    BasicType(const std::string& val):m_type(SupportType::String), intVal(0), strVal(val) {};
-    BasicType(const char val[100]):m_type(SupportType::String), intVal(0), strVal(val) {};
+    Variant() = default;
+    Variant(int val): m_type(Type::Int), intVal(val), strVal("") {};
+    Variant(const std::string& val):m_type(Type::String), intVal(0), strVal(val) {};
+    Variant(const char val[100]):m_type(Type::String), intVal(0), strVal(val) {};
 
     int getInt() const {
-        if(m_type == SupportType::Int) {
+        if(m_type == Type::Int) {
             return intVal;
         }
         throw std::bad_typeid();
@@ -29,7 +29,7 @@ public:
     }
 
     std::string toString() const {
-        if(m_type == SupportType::String)
+        if(m_type == Type::String)
         {
             return this->strVal;
         }
@@ -39,27 +39,27 @@ public:
         }
     }
 
-    BasicType toInt() const {
-        if(m_type == SupportType::Int)
+    Variant toInt() const {
+        if(m_type == Type::Int)
         {
             return *this;
         }
         else
         {
-            return BasicType(std::atoi(this->strVal.c_str()));
+            return Variant(std::atoi(this->strVal.c_str()));
         }
     }
 
-    BasicType& operator=(int i) {
-        if(m_type != SupportType::Int) {
+    Variant& operator=(int i) {
+        if(m_type != Type::Int) {
             throw std::bad_typeid();
         }
         intVal = i;
         return *this;
     }
 
-    BasicType& operator=(const std::string& s) {
-        if(m_type != SupportType::String) {
+    Variant& operator=(const std::string& s) {
+        if(m_type != Type::String) {
             throw std::bad_typeid();
         }
         intVal = 0;
@@ -67,24 +67,24 @@ public:
         return *this;
     }
 
-    BasicType operator+(const BasicType& other) {
+    Variant operator+(const Variant& other) {
         if(this->m_type != other.m_type)
         {
             throw std::bad_typeid();
         }
-        BasicType ret;
+        Variant ret;
         ret.m_type = this->m_type;
         ret.intVal = this->intVal + other.intVal;
         ret.strVal = this->strVal + other.strVal;
         return ret;
     }
 
-    bool operator>(const BasicType& other) {
+    bool operator>(const Variant& other) {
         if(this->m_type != other.m_type)
         {
             throw std::bad_typeid();
         }
-        if(this->m_type == SupportType::Int)
+        if(this->m_type == Type::Int)
         {
             return this->intVal > other.intVal;
         }
@@ -94,12 +94,12 @@ public:
         }
     }
 
-    bool operator<(const BasicType& other) {
+    bool operator<(const Variant& other) {
         if(this->m_type != other.m_type)
         {
             throw std::bad_typeid();
         }
-        if(this->m_type == SupportType::Int)
+        if(this->m_type == Type::Int)
         {
             return this->intVal < other.intVal;
         }
@@ -109,12 +109,12 @@ public:
         }
     }
 
-    bool operator==(const BasicType& other) {
+    bool operator==(const Variant& other) {
         if(this->m_type != other.m_type)
         {
             throw std::bad_typeid();
         }
-        if(this->m_type == SupportType::Int)
+        if(this->m_type == Type::Int)
         {
             return this->intVal == other.intVal;
         }
@@ -124,58 +124,56 @@ public:
         }
     }
 
-    bool operator!=(const BasicType& other) {
+    bool operator!=(const Variant& other) {
         return !(*this == other);
     }
 
-    BasicType operator-(const BasicType& other) {
+    Variant operator-(const Variant& other) {
         if(this->m_type != other.m_type)
         {
             throw std::bad_typeid();
         }
-        BasicType ret;
+        Variant ret;
         ret.m_type = this->m_type;
         ret.intVal = this->intVal - other.intVal;
-        //        ret.strVal = this->strVal + other.strVal;
         return ret;
     }
 
-    BasicType operator*(const BasicType& other) {
+    Variant operator*(const Variant& other) {
         if(this->m_type != other.m_type)
         {
             throw std::bad_typeid();
         }
-        BasicType ret;
+        Variant ret;
         ret.m_type = this->m_type;
         ret.intVal = this->intVal * other.intVal;
-        //        ret.strVal = this->strVal + other.strVal;
         return ret;
     }
 
 
-    BasicType operator/(const BasicType& other) {
+    Variant operator/(const Variant& other) {
         if(this->m_type != other.m_type)
         {
             throw std::bad_typeid();
         }
-        BasicType ret;
+        Variant ret;
         ret.m_type = this->m_type;
         ret.intVal = this->intVal / other.intVal;
         //        ret.strVal = this->strVal + other.strVal;
         return ret;
     }
 
-    BasicType operator-(){
+    Variant operator-(){
         this->intVal = -this->intVal;
         return *this;
     }
 
-    friend std::ostream& operator<<(std::ostream& os, const BasicType& obj)
+    friend std::ostream& operator<<(std::ostream& os, const Variant& obj)
     {
-        if(obj.m_type == SupportType::Int)
+        if(obj.m_type == Type::Int)
         {
             os << obj.intVal;
-        } else if (obj.m_type == SupportType::String)
+        } else if (obj.m_type == Type::String)
         {
             os << obj.strVal;
         }
@@ -183,18 +181,18 @@ public:
     }
 
     bool isString() const {
-        return m_type == SupportType::String;
+        return m_type == Type::String;
     }
 
     bool isInteger() const {
-        return m_type == SupportType::Int;
+        return m_type == Type::Int;
     }
 
 private:
     int intVal = 0;
     std::string strVal = "";
-    SupportType m_type = SupportType::Void;
+    Type m_type = Type::Void;
 
 };
 
-#endif // BASICTYPE_H
+#endif // VARIANT_H
