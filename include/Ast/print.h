@@ -1,5 +1,6 @@
 #ifndef PRINT_H
 #define PRINT_H
+
 #include "ast.h"
 
 class Print : public AST

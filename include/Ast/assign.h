@@ -2,8 +2,6 @@
 #define ASSIGN_H
 
 #include "ast.h"
-#include "../token.h"
-#include "var.h"
 
 class Assign : public AST
 {
@@ -14,6 +12,6 @@ public:
     ASTPtr          m_right;
 };
 
-using AssignPtr = std::shared_ptr<Assign>;
+CREATE_SHARED_PTR(Assign);
 
 #endif // ASSIGN_H

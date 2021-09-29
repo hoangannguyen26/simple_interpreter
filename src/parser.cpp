@@ -1,7 +1,5 @@
 #include "parser.h"
-#include <cctype>
-#include <cstdlib>
-#include <iostream>
+
 #include "Ast/ast.h"
 #include "Ast/literal.h"
 #include "Ast/binop.h"
@@ -18,7 +16,10 @@
 #include "Ast/tostring.h"
 #include "Ast/toint.h"
 #include "Exception/parserexception.h"
+
 #include <memory>
+#include <cctype>
+#include <cstdlib>
 
 Parser::Parser(const LexerPtr lexer):
     m_lexer (lexer),

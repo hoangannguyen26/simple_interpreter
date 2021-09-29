@@ -1,8 +1,7 @@
 #ifndef BINOP_H
 #define BINOP_H
+
 #include "ast.h"
-#include "../token.h"
-#include "literal.h"
 
 
 class BinOp : public AST

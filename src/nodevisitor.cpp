@@ -30,7 +30,6 @@ BasicType NodeVisitor::visit(const ASTPtr& node){
     case AST::NodeType::ToInt:
         return visit_ToInt(node);
     default:
-//        throw "Missing handle";
         return BasicType(0);
     }
 }

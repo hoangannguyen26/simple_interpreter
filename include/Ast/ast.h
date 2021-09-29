@@ -1,9 +1,8 @@
 #ifndef AST_H
 #define AST_H
 
-#include <memory>
-#include "../basictype.h"
-#include "../token.h"
+#include "basictype.h"
+#include "token.h"
 
 #define CREATE_SHARED_PTR(name) using name##Ptr = std::shared_ptr<name>
 

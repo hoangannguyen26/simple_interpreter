@@ -1,12 +1,12 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include <string>
 #include "lexer.h"
 #include "nodevisitor.h"
 #include "Ast/ast.h"
-#include "Ast/var.h"
 #include "Ast/literal.h"
+
+#include <string>
 #include <vector>
 
 

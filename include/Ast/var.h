@@ -2,9 +2,7 @@
 #define VAR_H
 
 #include "ast.h"
-#include "../token.h"
 
-// The Var node is constructed out of ID token.
 class Var : public AST
 {
 public:

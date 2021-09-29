@@ -1,8 +1,9 @@
-#include <iostream>
 #include "parser.h"
 #include "lexer.h"
 #include "interpreter.h"
 #include "Exception/myexception.h"
+
+#include <iostream>
 #include <fstream>
 
 int main(const int argc, const char** argv)

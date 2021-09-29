@@ -2,9 +2,10 @@
 #define TOKEN_H
 
 #include "token-type.h"
+#include "basictype.h"
+
 #include <string>
 #include <memory>
-#include "basictype.h"
 
 class Token
 {

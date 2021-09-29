@@ -1,8 +1,10 @@
 #ifndef INTERPRETER_H
 #define INTERPRETER_H
+
 #include "parser.h"
-#include <map>
 #include "nodevisitor.h"
+
+#include <map>
 
 
 class Interpreter : public NodeVisitor

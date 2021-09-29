@@ -1,5 +1,6 @@
 #ifndef NODEVISITOR_H
 #define NODEVISITOR_H
+
 #include "Ast/ast.h"
 #include "basictype.h"
 

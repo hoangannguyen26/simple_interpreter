@@ -1,7 +1,7 @@
 #ifndef UNARYOP_H
 #define UNARYOP_H
+
 #include "ast.h"
-#include "../token.h"
 
 
 class UnaryOp : public AST

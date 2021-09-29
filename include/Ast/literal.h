@@ -1,7 +1,7 @@
 #ifndef NUM_H
 #define NUM_H
+
 #include "ast.h"
-#include "../token.h"
 
 
 class Literal : public AST
