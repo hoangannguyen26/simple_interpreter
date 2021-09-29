@@ -6,7 +6,7 @@
 #include <iostream>
 
 
-class BasicType : public std::bad_typeid
+class BasicType
 {
     enum class SupportType {
         Void,
@@ -17,25 +17,25 @@ class BasicType : public std::bad_typeid
 public:
     BasicType() = default;
     BasicType(int val): m_type(SupportType::Int), intVal(val), strVal("") {};
-    BasicType(std::string val):m_type(SupportType::String), intVal(0), strVal(val) {};
+    BasicType(const std::string& val):m_type(SupportType::String), intVal(0), strVal(val) {};
     BasicType(const char val[100]):m_type(SupportType::String), intVal(0), strVal(val) {};
 
     int getInt() const {
         if(m_type == SupportType::Int) {
             return intVal;
         }
-        throw "Invalid type";
+        throw std::bad_typeid();
         return 0;
     }
 
-    BasicType toString() const {
+    std::string toString() const {
         if(m_type == SupportType::String)
         {
-            return *this;
+            return this->strVal;
         }
         else
         {
-            return BasicType(std::to_string(this->intVal));
+            return std::to_string(this->intVal);
         }
     }
 
@@ -50,17 +50,9 @@ public:
         }
     }
 
-    std::string getString() const {
-        if(m_type == SupportType::String) {
-            return strVal;
-        }
-        throw "Invalid type";
-        return "";
-    }
-
     BasicType& operator=(int i) {
         if(m_type != SupportType::Int) {
-            //            throw std::bad_typeid;
+            throw std::bad_typeid();
         }
         intVal = i;
         return *this;
@@ -68,7 +60,7 @@ public:
 
     BasicType& operator=(const std::string& s) {
         if(m_type != SupportType::String) {
-            throw "bad_typeid";
+            throw std::bad_typeid();
         }
         intVal = 0;
         strVal = s;
@@ -78,7 +70,7 @@ public:
     BasicType operator+(const BasicType& other) {
         if(this->m_type != other.m_type)
         {
-            throw "invalid type";
+            throw std::bad_typeid();
         }
         BasicType ret;
         ret.m_type = this->m_type;
@@ -90,7 +82,7 @@ public:
     bool operator>(const BasicType& other) {
         if(this->m_type != other.m_type)
         {
-            throw "invalid type";
+            throw std::bad_typeid();
         }
         if(this->m_type == SupportType::Int)
         {
@@ -105,7 +97,7 @@ public:
     bool operator<(const BasicType& other) {
         if(this->m_type != other.m_type)
         {
-            throw "invalid type";
+            throw std::bad_typeid();
         }
         if(this->m_type == SupportType::Int)
         {
@@ -120,7 +112,7 @@ public:
     bool operator==(const BasicType& other) {
         if(this->m_type != other.m_type)
         {
-            throw "invalid type";
+            throw std::bad_typeid();
         }
         if(this->m_type == SupportType::Int)
         {
@@ -139,7 +131,7 @@ public:
     BasicType operator-(const BasicType& other) {
         if(this->m_type != other.m_type)
         {
-            throw "invalid type";
+            throw std::bad_typeid();
         }
         BasicType ret;
         ret.m_type = this->m_type;
@@ -151,7 +143,7 @@ public:
     BasicType operator*(const BasicType& other) {
         if(this->m_type != other.m_type)
         {
-            throw "invalid type";
+            throw std::bad_typeid();
         }
         BasicType ret;
         ret.m_type = this->m_type;
@@ -164,7 +156,7 @@ public:
     BasicType operator/(const BasicType& other) {
         if(this->m_type != other.m_type)
         {
-            throw "invalid type";
+            throw std::bad_typeid();
         }
         BasicType ret;
         ret.m_type = this->m_type;

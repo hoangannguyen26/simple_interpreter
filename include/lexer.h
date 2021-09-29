@@ -19,11 +19,11 @@ private:
     void                skipWhiteSpace();
     TokenPtr            id();
 
-        const               std::string m_text;
+    const               std::string m_text;
     unsigned            m_pos;
     char                m_currentChar;
     unsigned            m_currentLine;
-    std::map<std::string, TokenPtr> RESERVED_KEYWORDS = {
+    const std::map<std::string, TokenPtr> RESERVED_KEYWORDS = {
         {"var", std::make_shared<Token> (TokenType::VAR, "var")},
         {"int", std::make_shared<Token> (TokenType::INTEGER_TYPE, "int")},
         {"string", std::make_shared<Token> (TokenType::STRING_TYPE, "string")},
@@ -32,7 +32,7 @@ private:
         {"do", std::make_shared<Token> (TokenType::DO, "do")},
         {"to_int", std::make_shared<Token> (TokenType::TO_INT, "to_int")},
         {"to_string", std::make_shared<Token> (TokenType::TO_STRING, "to_string")},
-        };
+    };
 };
 
 using LexerPtr = std::shared_ptr<Lexer>;

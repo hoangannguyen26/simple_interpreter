@@ -16,7 +16,8 @@
 #include "Ast/doloop.h"
 #include "Ast/tostring.h"
 #include "Ast/toint.h"
-#include "Exception/interpreterexception.h"
+
+#include "Exception/myexception.h"
 
 
 #define GET_NODE(nodeType, astNode)                                     \
@@ -31,9 +32,8 @@ Interpreter::Interpreter(const ParserPtr& parser):
 {
 }
 
-BasicType Interpreter::error(const std::string& message){
-    throw InterpreterException("Error: " + message + " at line: " + std::to_string(m_currentToken->m_line));
-    return BasicType();
+BasicType Interpreter::error(const std::string& message) const {
+    throw MyException("Error: " + message + " at line: " + std::to_string(m_currentToken->m_line));
 }
 
 BasicType Interpreter::visit_Literal(const ASTPtr &astNode)
@@ -46,36 +46,40 @@ BasicType Interpreter::visit_BinOp(const ASTPtr &astNode) {
     GET_NODE(BinOp, astNode);
     auto left = visit(node->m_left);
     auto right = visit(node->m_right);
-    if(node->m_left->m_type == AST::NodeType::Var) {
-        const VarPtr var = std::dynamic_pointer_cast<Var>(node->m_left);
-        if(var) {
-            left = getVariableValue(var->m_value);
+    try {
+        if(node->m_left->m_type == AST::NodeType::Var) {
+            const VarPtr var = std::dynamic_pointer_cast<Var>(node->m_left);
+            if(var) {
+                left = getVariableValue(var->m_value);
+            }
         }
-    }
-    if(node->m_right->m_type == AST::NodeType::Var) {
-        const VarPtr var = std::dynamic_pointer_cast<Var>(node->m_right);
-        if(var) {
-            right = getVariableValue(var->m_value);
+        if(node->m_right->m_type == AST::NodeType::Var) {
+            const VarPtr var = std::dynamic_pointer_cast<Var>(node->m_right);
+            if(var) {
+                right = getVariableValue(var->m_value);
+            }
         }
-    }
 
-    if(node->m_op->m_type == TokenType::PLUS) {
-        return left + right;
-    }
-    if(node->m_op->m_type == TokenType::MINUS) {
-        return left - right;
-    }
-    if(node->m_op->m_type == TokenType::MUL) {
-        return left * right;
-    }
-    if(node->m_op->m_type == TokenType::DIV) {
-        return left / right;
-    }
-    if(node->m_op->m_type == TokenType::GREAT) {
-        return left > right;
-    }
-    if(node->m_op->m_type == TokenType::LESS) {
-        return left < right;
+        if(node->m_op->m_type == TokenType::PLUS) {
+            return left + right;
+        }
+        if(node->m_op->m_type == TokenType::MINUS) {
+            return left - right;
+        }
+        if(node->m_op->m_type == TokenType::MUL) {
+            return left * right;
+        }
+        if(node->m_op->m_type == TokenType::DIV) {
+            return left / right;
+        }
+        if(node->m_op->m_type == TokenType::GREAT) {
+            return left > right;
+        }
+        if(node->m_op->m_type == TokenType::LESS) {
+            return left < right;
+        }
+    } catch (const std::bad_typeid& e) {
+        error("invalid math operation");
     }
     return error();
 }
@@ -98,10 +102,10 @@ BasicType Interpreter::visit_Assign(const ASTPtr &astNode) {
     VarPtr var = std::dynamic_pointer_cast<Var>(node->m_left);
     if(var) {
         std::string varName = var->m_value;
-        if(GLOBAL_SCOPE.find(varName) == GLOBAL_SCOPE.end()) {
+        if(m_globalScope.find(varName) == m_globalScope.end()) {
             return error("Variable `"+varName+"` is not defined");
         }
-        GLOBAL_SCOPE[varName] = visit(node->m_right);;
+        m_globalScope[varName] = visit(node->m_right);;
     }
     return BasicType();
 }
@@ -117,7 +121,7 @@ BasicType Interpreter::visit_Block(const ASTPtr &astNode) {
 BasicType Interpreter::visit_Variable(const ASTPtr &astNode) {
     GET_NODE(Var, astNode);
     auto varName = node->m_value;
-    if(GLOBAL_SCOPE.find(varName) == GLOBAL_SCOPE.end()){
+    if(m_globalScope.find(varName) == m_globalScope.end()){
         return error("Error name");
     }
     return node->m_value;
@@ -133,23 +137,23 @@ BasicType Interpreter::visit_VarDecl(const ASTPtr &astNode) {
     }
     // check if the variable exists
     auto variableName = varNode->m_value;
-    if(GLOBAL_SCOPE.find(variableName) != GLOBAL_SCOPE.end()) {
+    if(m_globalScope.find(variableName) != m_globalScope.end()) {
         return error("Variable `" +variableName +"` already exists.");
     }
 
-    GLOBAL_SCOPE[variableName] = BasicType();
-
-    if(typeNode->m_token->m_type == TokenType::STRING_TYPE) {
-        GLOBAL_SCOPE[variableName] = BasicType("");
-    }
-
-    if(typeNode->m_token->m_type == TokenType::INTEGER_TYPE) {
-        GLOBAL_SCOPE[variableName] = BasicType(0);
-    }
+     m_globalScope[variableName] = BasicType();
 
     if(node->m_initialization_value) {
-        auto init = visit(node->m_initialization_value);
-        GLOBAL_SCOPE[variableName] = init;
+        visit(node->m_initialization_value);
+    } else {
+
+        if(typeNode->m_token->m_type == TokenType::STRING_TYPE) {
+            m_globalScope[variableName] = BasicType("");
+        }
+
+        if(typeNode->m_token->m_type == TokenType::INTEGER_TYPE) {
+            m_globalScope[variableName] = BasicType(0);
+        }
     }
 
     return BasicType();
@@ -167,8 +171,8 @@ BasicType Interpreter::visit_Print(const ASTPtr &astNode) {
     if(variable) {
         const std::string variableName = variable->m_value;
         // Check if the variable exist
-        const auto it = GLOBAL_SCOPE.find(variableName);
-        if(it != GLOBAL_SCOPE.end()) {
+        const auto it = m_globalScope.find(variableName);
+        if(it != m_globalScope.end()) {
             std::cout << it->second;
         } else {
             error("could not found variable: `" + variableName+"`");
@@ -213,7 +217,7 @@ BasicType Interpreter::visit_DoLoop(const ASTPtr &astNode) {
 BasicType Interpreter::visit_ToString(const ASTPtr &astNode){
     GET_NODE(ToString, astNode);
     if(node->m_data->m_type == TokenType::ID) {
-        auto variable = getVariableValue(node->m_data->m_value.getString());
+        auto variable = getVariableValue(node->m_data->m_value.toString());
         return variable.toString();
     }
     return node->m_data->m_value.toString();
@@ -222,16 +226,16 @@ BasicType Interpreter::visit_ToString(const ASTPtr &astNode){
 BasicType Interpreter::visit_ToInt(const ASTPtr &astNode){
     GET_NODE(ToInt, astNode);
     if(node->m_data->m_type == TokenType::ID) {
-        auto variable = getVariableValue(node->m_data->m_value.getString());
+        auto variable = getVariableValue(node->m_data->m_value.toString());
         return variable.toInt();
     }
     return node->m_data->m_value.toInt();
 }
 
 
-BasicType Interpreter::getVariableValue(const std::string& varName) {
-    const auto it = GLOBAL_SCOPE.find(varName);
-    if(it != GLOBAL_SCOPE.end()) {
+BasicType Interpreter::getVariableValue(const std::string& varName) const {
+    const auto it = m_globalScope.find(varName);
+    if(it != m_globalScope.end()) {
         return it->second;
     }
     return error( "Variable `"+varName+"` does not exist ");

@@ -15,7 +15,7 @@
 #include "Ast/doloop.h"
 #include "Ast/tostring.h"
 #include "Ast/toint.h"
-#include "Exception/parserexception.h"
+#include "Exception/myexception.h"
 
 #include <memory>
 #include <cctype>
@@ -122,8 +122,9 @@ ASTPtr Parser::expr()
 }
 
 ASTPtr Parser::error() {
-    throw ParserException("Error at line " + std::to_string(m_LastToken->m_line) + " character " + m_LastToken->m_value.getString());
-    return nullptr;
+    const auto line = m_LastToken->m_line;
+    const auto mes = m_LastToken->m_value.toString() + m_currentToken->m_value.toString();
+    throw MyException("Error at line " + std::to_string(line) + " : `" + mes +"`");
 }
 
 
@@ -289,12 +290,12 @@ ASTPtr Parser::variable_declaration() {
         eat(TokenType::VAR);
         ASTPtr type_node = type_spec();
         ASTPtr var_node = variable();
-        ASTPtr initialization = nullptr;
+        ASTPtr assign = nullptr;
         if(m_currentToken->m_type == TokenType::ASSIGN) {
             eat(TokenType::ASSIGN);
-            initialization = expr();
+            assign = std::make_shared<Assign>(var_node, m_currentToken, expr());
         }
-        return std::make_shared<VarDecl>(var_node, type_node, initialization, m_LastToken);
+        return std::make_shared<VarDecl>(var_node, type_node, assign, m_LastToken);
     }
     return nullptr;
 }

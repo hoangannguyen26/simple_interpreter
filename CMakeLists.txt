@@ -34,9 +34,6 @@ add_executable(SimpleInterpreter
     ${SOURCE_DIR}/token.cpp
     ${SOURCE_DIR}/main.cpp
     ${SOURCE_DIR}/Exception/myexception.cpp
-    ${SOURCE_DIR}/Exception/parserexception.cpp
-    ${SOURCE_DIR}/Exception/lexerexception.cpp
-    ${SOURCE_DIR}/Exception/interpreterexception.cpp
     )
 ADD_CUSTOM_COMMAND(TARGET SimpleInterpreter
           POST_BUILD

@@ -1,5 +1,5 @@
 #include "lexer.h"
-#include "Exception/lexerexception.h"
+#include "Exception/myexception.h"
 
 Lexer::Lexer(const std::string& text):
     m_text(text),
@@ -91,7 +91,7 @@ TokenPtr Lexer::getNextToken() {
 
 
 void Lexer::error() {
-    throw LexerException("Error at line: " + std::to_string(m_currentLine) + " character `" + m_currentChar+"`");
+    throw MyException("Error at line: " + std::to_string(m_currentLine) + " unknown character `" + m_currentChar+"`");
 }
 
 
