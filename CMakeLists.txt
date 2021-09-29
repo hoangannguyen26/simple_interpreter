@@ -5,12 +5,10 @@ project(SimpleInterpreter LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
 set(INCLUDE_DIRECTORIES ${CMAKE_SOURCE_DIR}/include)
 include_directories(${INCLUDE_DIRECTORIES})
 
-message(STATUS "Working dir${CMAKE_CURRENT_BINARY_DIR}")
-message(STATUS "Working dir${CMAKE_SOURCE_DIR}")
+set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
 
 add_executable(SimpleInterpreter
     ${SOURCE_DIR}/Ast/ast.cpp
