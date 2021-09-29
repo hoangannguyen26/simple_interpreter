@@ -1,21 +1,23 @@
 ## That is a very simple interpreter written in C++ (C++ 11) language.
 
-### The main idea:
+## The main idea:
 
 ![](./images/lsbasi_part7_pipeline.png)
 
 (image from: https://ruslanspivak.com)
 
-### Refer idea from: https://ruslanspivak.com/lsbasi-part1/
+## Refer idea from: https://ruslanspivak.com/lsbasi-part1/
 
 More information about `A`bstract `S`yntax `T`ree, please refer here: https://ruslanspivak.com/lsbasi-part7/
 
-### How to build
+## How to build
 - `mkdir build`
 - `cd build && cmake .. && make`
 
-### How to run
+## How to run
 `./SimpleInterpreter path_to_source_file`
+
+## Features list:
 
 ### 1. Variable declaration:
     
@@ -63,9 +65,11 @@ Variable name must start with a letter
 ### 6. Comment:
 - to comment out a line of code, put `#` at the beginning of this line.
 
-----
+--------------------
 
-### How to implement a new `statement`
+
+
+## For developer: How to implement a new `statement`
 - Refer to commit: https://github.com/hoangannguyen26/simple_interpreter/commit/98d245870128a9e6bc1d8637f21c2a4f8064d619. This commit holds the implementation of the DO statement.
 
 + Add a new token type that corresponding to the new `statement`: edit `token_type.h`
