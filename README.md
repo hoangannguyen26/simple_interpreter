@@ -17,7 +17,7 @@ More information about `A`bstract `S`yntax `T`ree, please refer here: https://ru
 ## How to run
 `./SimpleInterpreter path_to_source_file`
 
-## Features list:
+## Feature list:
 
 ### 1. Variable declaration:
     
