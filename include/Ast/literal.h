@@ -10,7 +10,6 @@ public:
     explicit Literal(const TokenPtr& token);
     Literal(const Literal&);
 public:
-    const TokenPtr            m_token;
     const BasicType           m_value;
 };
 

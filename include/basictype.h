@@ -182,6 +182,14 @@ public:
         return os;
     }
 
+    bool isString() const {
+        return m_type == SupportType::String;
+    }
+
+    bool isInteger() const {
+        return m_type == SupportType::Int;
+    }
+
 private:
     int intVal = 0;
     std::string strVal = "";

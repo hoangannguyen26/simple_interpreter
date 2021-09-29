@@ -8,7 +8,6 @@ class Var : public AST
 public:
     Var();
     explicit Var(const TokenPtr& token);
-    const TokenPtr            m_token;
     const std::string         m_value;  // variable name
 };
 

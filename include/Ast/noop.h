@@ -8,7 +8,6 @@ class NoOp : public AST
 {
 public:
     NoOp(const TokenPtr& token);
-    const TokenPtr  m_token;
 };
 
 CREATE_SHARED_PTR(NoOp);

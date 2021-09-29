@@ -102,10 +102,18 @@ BasicType Interpreter::visit_Assign(const ASTPtr &astNode) {
     VarPtr var = std::dynamic_pointer_cast<Var>(node->m_left);
     if(var) {
         std::string varName = var->m_value;
-        if(m_globalScope.find(varName) == m_globalScope.end()) {
+        const auto varValue = visit(node->m_right);
+        const auto it = m_globalScope.find(varName);
+        if(it == m_globalScope.end()) {
             return error("Variable `"+varName+"` is not defined");
         }
-        m_globalScope[varName] = visit(node->m_right);;
+        if(it->second.first == TokenType::STRING_TYPE && !varValue.isString()) {
+            return error("Could not assign `"+varName+"` as STRING to INTEGER");
+        }
+        if(it->second.first == TokenType::INTEGER_TYPE && !varValue.isInteger()) {
+            return error("Could not assign `"+varName+"` as INTEGER to STRING");
+        }
+        it->second.second = visit(node->m_right);
     }
     return BasicType();
 }
@@ -141,18 +149,18 @@ BasicType Interpreter::visit_VarDecl(const ASTPtr &astNode) {
         return error("Variable `" +variableName +"` already exists.");
     }
 
-     m_globalScope[variableName] = BasicType();
+    m_globalScope[variableName] = {typeNode->m_token->m_type, BasicType()};
 
     if(node->m_initialization_value) {
         visit(node->m_initialization_value);
     } else {
 
         if(typeNode->m_token->m_type == TokenType::STRING_TYPE) {
-            m_globalScope[variableName] = BasicType("");
+            m_globalScope[variableName] = {typeNode->m_token->m_type, BasicType("")};
         }
 
         if(typeNode->m_token->m_type == TokenType::INTEGER_TYPE) {
-            m_globalScope[variableName] = BasicType(0);
+            m_globalScope[variableName] = {typeNode->m_token->m_type, BasicType(0)};
         }
     }
 
@@ -173,7 +181,7 @@ BasicType Interpreter::visit_Print(const ASTPtr &astNode) {
         // Check if the variable exist
         const auto it = m_globalScope.find(variableName);
         if(it != m_globalScope.end()) {
-            std::cout << it->second;
+            std::cout << it->second.second;
         } else {
             error("could not found variable: `" + variableName+"`");
         }
@@ -236,7 +244,7 @@ BasicType Interpreter::visit_ToInt(const ASTPtr &astNode){
 BasicType Interpreter::getVariableValue(const std::string& varName) const {
     const auto it = m_globalScope.find(varName);
     if(it != m_globalScope.end()) {
-        return it->second;
+        return it->second.second;
     }
     return error( "Variable `"+varName+"` does not exist ");
 }

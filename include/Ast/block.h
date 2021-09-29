@@ -10,7 +10,6 @@ class Block : public AST
 public:
     Block(const TokenPtr& token);
     std::vector<ASTPtr>         children;
-    const TokenPtr  m_token;
 };
 
 CREATE_SHARED_PTR(Block);

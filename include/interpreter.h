@@ -14,7 +14,7 @@ public:
     BasicType                           interpret();
 private:
     ParserPtr                           m_parser;
-    std::map<std::string, BasicType>    m_globalScope;
+    std::map<std::string, std::pair<TokenType, BasicType>>    m_globalScope;
     BasicType                           getVariableValue(const std::string& variableName) const;
     BasicType                           error(const std::string& message = "") const;
     TokenPtr                            m_currentToken;
