@@ -21,11 +21,11 @@
 #include <cctype>
 #include <cstdlib>
 
-Parser::Parser(const LexerPtr lexer):
+Parser::Parser(const LexerPtr& lexer):
+    m_exitFromBlock(false),
     m_lexer (lexer),
     m_currentToken(m_lexer->getNextToken()),
-    m_currentTabLevel(0),
-    m_exitFromBlock(false)
+    m_currentTabLevel(0)
 {
 
 }
@@ -82,7 +82,6 @@ ASTPtr Parser::term()
         {
             eat(TokenType::DIV);
         }
-
         result = std::make_shared<BinOp>(result, token, factor());
     }
     return result;

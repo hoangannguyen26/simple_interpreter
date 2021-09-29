@@ -13,14 +13,15 @@
 class Parser
 {
 public:
-    explicit            Parser(const LexerPtr lexer);
+    explicit            Parser(const LexerPtr& lexer);
     ASTPtr              parse();
 private:
+    bool                m_exitFromBlock;
     const               LexerPtr m_lexer;
     TokenPtr            m_currentToken;
     TokenPtr            m_LastToken;
     int                 m_currentTabLevel;
-    ASTPtr                error();
+    ASTPtr              error();
     void                eat(TokenType tokenType);
     ASTPtr              factor();
     ASTPtr              term();
@@ -31,7 +32,6 @@ private:
     LiteralPtr          literal();
     ASTPtr              assignment_statement();
     ASTPtr              statement();
-    std::vector<ASTPtr> statement_list();
     ASTPtr              block();
     ASTPtr              program();
     ASTPtr              type_spec();
@@ -42,7 +42,6 @@ private:
     ASTPtr              do_statement();
     ASTPtr              to_int();
     ASTPtr              to_string();
-    bool                m_exitFromBlock;
 };
 
 using ParserPtr = std::shared_ptr<Parser>;
