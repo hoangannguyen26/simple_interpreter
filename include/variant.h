@@ -123,7 +123,7 @@ public:
     }
 
     Variant operator-(const Variant& other) {
-        if(this->m_type != other.m_type)
+        if(this->m_type != Type::Int || this->m_type != other.m_type)
         {
             throw std::bad_typeid();
         }
@@ -134,7 +134,7 @@ public:
     }
 
     Variant operator*(const Variant& other) {
-        if(this->m_type != other.m_type)
+        if(this->m_type != Type::Int || this->m_type != other.m_type)
         {
             throw std::bad_typeid();
         }
@@ -146,7 +146,7 @@ public:
 
 
     Variant operator/(const Variant& other) {
-        if(this->m_type != other.m_type)
+        if(this->m_type != Type::Int || this->m_type != other.m_type)
         {
             throw std::bad_typeid();
         }

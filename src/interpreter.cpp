@@ -36,8 +36,7 @@ Variant Interpreter::error(const std::string& message) const {
     throw MyException("Error: " + message + " at line: " + std::to_string(m_currentToken->m_line));
 }
 
-Variant Interpreter::visit_Literal(const ASTPtr &astNode)
-{
+Variant Interpreter::visit_Literal(const ASTPtr &astNode) {
     GET_NODE(Literal, astNode);
     return Variant(node->m_value);
 }
@@ -70,6 +69,9 @@ Variant Interpreter::visit_BinOp(const ASTPtr &astNode) {
             return left * right;
         }
         if(node->m_op->m_type == TokenType::DIV) {
+            if(right == 0) {
+                error("divide by zero");
+            }
             return left / right;
         }
         if(node->m_op->m_type == TokenType::GREAT) {
@@ -84,7 +86,7 @@ Variant Interpreter::visit_BinOp(const ASTPtr &astNode) {
     return error();
 }
 
-Variant Interpreter::visit_UnaryOp(const ASTPtr &astNode){
+Variant Interpreter::visit_UnaryOp(const ASTPtr &astNode) {
     GET_NODE(UnaryOp, astNode);
     if(node->m_op->m_type == TokenType::PLUS)
     {
