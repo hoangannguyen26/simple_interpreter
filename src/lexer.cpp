@@ -84,6 +84,10 @@ TokenPtr Lexer::getNextToken() {
             advance();
             return std::make_shared<Token>(TokenType::LESS, "<", m_currentLine);
         }
+        if(m_currentChar == '#') {
+            skipComment();
+            continue;
+        }
         error();
     }
     return std::make_shared<Token>(TokenType::END_OF_FILE, "", m_currentLine);
@@ -111,6 +115,13 @@ void Lexer::advance()
 void Lexer::skipWhiteSpace()
 {
     while (m_currentChar != EOF && std::isblank(m_currentChar)) {
+        advance();
+    }
+}
+
+void Lexer::skipComment()
+{
+    while (m_currentChar != EOF && m_currentChar != '\n') {
         advance();
     }
 }

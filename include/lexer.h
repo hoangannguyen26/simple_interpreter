@@ -17,6 +17,7 @@ private:
     int                 integer();
     std::string         string();
     void                skipWhiteSpace();
+    void                skipComment();
     TokenPtr            id();
 
     const               std::string m_text;

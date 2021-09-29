@@ -55,9 +55,13 @@ Variable name must start with a letter
                 print “It’s bigger!”
 
 ### 5. Cycles:
+- support a very simple DO
 
-        do 10
-                print “It will be printed 10 times!”
+	    do 10
+			print “It will be printed 10 times!”
+
+### 6. Comment:
+- to comment out a line of code, put `#` at the beginning of this line.
 
 ----
 
