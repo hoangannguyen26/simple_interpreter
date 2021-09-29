@@ -132,7 +132,7 @@ Variant Interpreter::visit_Variable(const ASTPtr &astNode) {
     GET_NODE(Var, astNode);
     auto varName = node->m_value;
     if(m_globalScope.find(varName) == m_globalScope.end()){
-        return error("Error name");
+        return error( "variable `"+varName+"` does not exist");
     }
     return node->m_value;
 }
@@ -148,7 +148,7 @@ Variant Interpreter::visit_VarDecl(const ASTPtr &astNode) {
     // check if the variable exists
     auto variableName = varNode->m_value;
     if(m_globalScope.find(variableName) != m_globalScope.end()) {
-        return error("Variable `" +variableName +"` already exists.");
+        return error("Variable `" +variableName +"` already exists");
     }
 
     m_globalScope[variableName] = {typeNode->m_token->m_type, Variant()};
@@ -185,7 +185,7 @@ Variant Interpreter::visit_Print(const ASTPtr &astNode) {
         if(it != m_globalScope.end()) {
             std::cout << it->second.second;
         } else {
-            error("could not found variable: `" + variableName+"`");
+            return error( "variable `"+variableName+"` does not exist");
         }
     } else {
         std::cout << visit(node->m_value);
@@ -248,7 +248,7 @@ Variant Interpreter::getVariableValue(const std::string& varName) const {
     if(it != m_globalScope.end()) {
         return it->second.second;
     }
-    return error( "Variable `"+varName+"` does not exist ");
+    return error( "variable `"+varName+"` does not exist");
 }
 
 Variant Interpreter::interpret() {
