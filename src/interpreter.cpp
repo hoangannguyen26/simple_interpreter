@@ -208,7 +208,7 @@ Variant Interpreter::visit_Type(const ASTPtr &astNode)
     GET_NODE(Type, astNode);
     // Do nothing
     return Variant();
-};
+}
 
 Variant Interpreter::visit_Print(const ASTPtr &astNode)
 {

@@ -9,9 +9,15 @@ class Variant
 {
 public:
     Variant() = default;
-    Variant(int val) : m_type(Type::Int), intVal(val), strVal(""){};
-    Variant(const std::string &val) : m_type(Type::String), intVal(0), strVal(val){};
-    Variant(const char val[100]) : m_type(Type::String), intVal(0), strVal(val){};
+    Variant(int val) : m_type(Type::Int), intVal(val), strVal("")
+    {
+    }
+    Variant(const std::string &val) : m_type(Type::String), intVal(0), strVal(val)
+    {
+    }
+    Variant(const char val[100]) : m_type(Type::String), intVal(0), strVal(val)
+    {
+    }
 
     int getInt() const
     {
