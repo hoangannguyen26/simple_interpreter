@@ -10,6 +10,10 @@
 
 More information about `A`bstract `S`yntax `T`ree, please refer here: https://ruslanspivak.com/lsbasi-part7/
 
+## Limitations
+
+- Currently, we can declare a variable inside a scope but all variables are GLOBAL
+
 ## How to build
 - `mkdir build`
 - `cd build && cmake .. && make`
@@ -25,7 +29,7 @@ More information about `A`bstract `S`yntax `T`ree, please refer here: https://ru
 - `var string test02`
 
 - Variable name must start with a letter
-- Each variable will be assign to a default value after it is declarated
+- Each variable will be assigned to a default value after it is declared
 	- `0` for int type
 	- `empty` for string type
 
