@@ -243,7 +243,7 @@ Variant Interpreter::visit_IfCondition(const ASTPtr &astNode)
     {
         return visit(node->m_block);
     }
-    return error();
+    return Variant();
 }
 
 Variant Interpreter::visit_DoLoop(const ASTPtr &astNode)
