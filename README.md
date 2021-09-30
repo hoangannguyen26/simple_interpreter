@@ -10,7 +10,7 @@
 
 More information about `A`bstract `S`yntax `T`ree, please refer here: https://ruslanspivak.com/lsbasi-part7/
 
-## Limitations
+## Known issue:
 
 - Currently, we can declare a variable inside a scope but all variables are GLOBAL
 
